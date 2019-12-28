@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorator="~{/layouts/pageLayout}"
+>
+
+<div layout:fragment="content">
+    <form action="#" th:action="@{/login}" th:object="${loginForm}"
+          method="post">
+        <table>
+            <tr>
+                <td>Login:</td>
+                <td><input type="text" th:field="*{username}" /></td>
+                <td th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name
+                    Error</td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td><input type="text" th:field="*{password}" /></td>
+                <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Age
+                    Error</td>
+            </tr>
+            <tr>
+                <td><button type="submit">Submit</button></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+
+</html>

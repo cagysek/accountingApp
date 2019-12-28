@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout.html">
+<section layout:fragment="content">
+
+    <table xmlns:th="http://www.w3.org/1999/xhtml">
+        <th:block th:each="user : ${users}">
+            <tr>
+                <td th:text="${user.getFirstName()}">...</td>
+                <td th:text="${user.getLastName()}">...</td>
+            </tr>
+        </th:block>
+    </table>
+
+</section>
+
+
+</html>

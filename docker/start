@@ -1,0 +1,3 @@
+# přejde do adresáře s dockerem a pustí vytvoření kontejneru
+cd "$(dirname "$0")"
+docker-compose up -d --build

@@ -1,0 +1,22 @@
+FROM debian:buster
+
+MAINTAINER Jan Čarnogurský <cagy@students.zcu.cz>
+
+# Nastavení Debianu
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Ošetření chyby: invoke-rc.d: policy-rc.d denied execution of start.
+RUN sed -i "s/^exit 101$/exit 0/" /usr/sbin/policy-rc.d
+
+# Základní repozitář pro Debian Jessie
+RUN echo "deb http://ftp.cz.debian.org/debian buster main" > /etc/apt/sources.list.d/jessie.list
+
+# Aktualizace definice balíčků a instalace základních balíčků
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends wget apt-transport-https ca-certificates
+
+
+
+# Pročištění souborů a cache dockerimage
+RUN apt-get clean -y && apt-get autoclean -y && apt-get autoremove -y && \
+    rm -rf /var/lib/apt/lists/* /var/lib/log/* /tmp/* /var/tmp/*

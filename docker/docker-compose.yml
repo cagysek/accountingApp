@@ -1,0 +1,38 @@
+version: '2'
+services:
+
+  counting_app:
+    container_name: counting_app
+    build:
+      context: ./
+      dockerfile: dockerfile
+    volumes:
+      - ./../:/var/www/html/
+
+  mariadb:
+    image: mariadb
+    container_name: mariadb
+    command: --character-set-server=utf8 --collation-server=utf8_czech_ci
+    environment:
+      - "MYSQL_ROOT_PASSWORD=root"
+      - "MYSQL_DATABASE=mydb"
+    ports:
+      - "3306:3306"
+    volumes:
+      - mydb:/var/lib/mysql
+
+  phpmyadmin:
+      image: phpmyadmin/phpmyadmin
+      container_name: phpmyadmin
+      environment:
+          PMA_HOST: mariadb
+          PMA_PORT: 3306
+      restart: always
+      ports:
+          - 8080:80
+      volumes:
+          - /sessions
+      links:
+          - mariadb
+volumes:
+  mydb:
