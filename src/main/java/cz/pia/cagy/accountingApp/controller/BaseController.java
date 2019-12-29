@@ -1,5 +1,6 @@
 package cz.pia.cagy.accountingApp.controller;
 
+import cz.pia.cagy.accountingApp.security.LoggedUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -18,9 +19,10 @@ public class BaseController
             return;
         }
 
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        LoggedUser loggedUser = (LoggedUser) authentication.getPrincipal();
 
-        model.addAttribute("username", userDetails.getUsername());
-        model.addAttribute("role", userDetails.getAuthorities());
+        model.addAttribute("username", loggedUser.getUsername());
+        model.addAttribute("role", loggedUser.getAuthorities());
+        model.addAttribute("userId", loggedUser.getUserId());
     }
 }

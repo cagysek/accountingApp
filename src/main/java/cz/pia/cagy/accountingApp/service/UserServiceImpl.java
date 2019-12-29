@@ -30,4 +30,16 @@ public class UserServiceImpl implements UserService
         return Collections.unmodifiableList(retVal);
     }
 
+    @Override
+    public User getUserById(long id)
+    {
+        return this.userRepository.findById(id);
+    }
+
+    @Override
+    public void saveUser(User user)
+    {
+        this.userRepository.save(user);
+    }
+
 }

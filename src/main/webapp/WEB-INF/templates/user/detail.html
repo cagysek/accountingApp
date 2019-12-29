@@ -1,0 +1,56 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{/layouts/pageLayout}">
+
+<div layout:fragment="content">
+    <h2>Detail uživatele <span th:text="${user.getUsername()}"></span></h2> <a th:href="@{/user-edit}">Edit</a>
+
+    <table class="table">
+        <thead>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">Přezdívka</th>
+            <td><span th:text="${user.getUsername()}"></span></td>
+        </tr>
+        <tr>
+            <th scope="row">Jméno</th>
+            <td><span th:text="${user.getFirstName()}"></span></td>
+        </tr>
+        <tr>
+            <th scope="row">Příjmení</th>
+            <td><span th:text="${user.getLastName()}"></span></td>
+        </tr>
+        <tr>
+            <th scope="row">Email</th>
+            <td><span th:text="${user.getEmail()}"></span></td>
+        </tr>
+        <tr>
+            <th scope="row">Rodné číslo</th>
+            <td><span th:text="${user.getPersonalIdentificationNumber()}"></span></td>
+        </tr>
+        <tr>
+            <th scope="row">Telefon</th>
+            <td><span th:text="${user.getPhone()}"></span></td>
+        </tr>
+        <tr>
+            <th scope="row">Číslo účtu</th>
+            <td><span th:text="${user.getAccountNumber()}"></span></td>
+        </tr>
+        <tr>
+            <th scope="row">Číslo karty</th>
+            <td><span th:text="${user.getCardNumber()}"></span></td>
+        </tr>
+        <tr>
+            <th scope="row">Adresa</th>
+            <td>
+                <span th:text="${user.getAddress().getStreet()}"></span><br>
+                <span th:text="${user.getAddress().getCity()}"></span><br>
+                <span th:text="${user.getAddress().getZip()}"></span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</html>

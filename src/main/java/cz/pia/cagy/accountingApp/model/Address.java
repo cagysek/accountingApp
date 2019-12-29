@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity
@@ -12,9 +13,12 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 public class Address extends BaseEntity
 {
+    @Column(name = "street")
     private String street;
 
+    @Column(name = "city")
     private String city;
 
-    private String zip;
+    @Column(name = "zip")
+    private int zip;
 }

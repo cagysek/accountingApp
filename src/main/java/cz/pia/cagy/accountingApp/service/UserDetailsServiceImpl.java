@@ -2,6 +2,7 @@ package cz.pia.cagy.accountingApp.service;
 
 import cz.pia.cagy.accountingApp.model.User;
 import cz.pia.cagy.accountingApp.repository.UserRepository;
+import cz.pia.cagy.accountingApp.security.LoggedUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,7 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
     {
-        System.out.println(username + " aaaa");
+        System.out.println(username);
         User user = userRepository.findByUsername(username);
 
         if (user != null)
@@ -34,7 +35,7 @@ public class UserDetailsServiceImpl implements UserDetailsService
             grantedAuthorities.add(new SimpleGrantedAuthority(user.getRole().getName()));
 
 
-            return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
+            return new LoggedUser(user.getUsername(), user.getPassword(), grantedAuthorities, user.getId());
         }
 
         return null;

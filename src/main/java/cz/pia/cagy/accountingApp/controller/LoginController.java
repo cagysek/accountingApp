@@ -16,7 +16,7 @@ public class LoginController extends BaseController
     @GetMapping(value = "/login")
     public ModelAndView login(Model model)
     {
-        ModelAndView modelAndView = new ModelAndView("forms/loginForm");
+        ModelAndView modelAndView = new ModelAndView("login/default");
         modelAndView.getModelMap().addAttribute("loginForm", new LoginForm());
 
         return modelAndView;
@@ -26,7 +26,7 @@ public class LoginController extends BaseController
     public String checkPersonInfo(@Valid LoginForm loginForm, BindingResult bindingResult, String logout) {
 
         if (bindingResult.hasErrors()) {
-            return "forms/loginForm";
+            return "login/default";
         }
 
         return "redirect:/";
