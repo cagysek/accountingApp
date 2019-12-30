@@ -21,34 +21,20 @@ public class PageController extends BaseController
     }
 
     @RequestMapping(value = "/", method = { RequestMethod.GET, RequestMethod.POST })
-    public ModelAndView homepage()
+    public String homepage()
     {
-        ModelAndView modelAndView = new ModelAndView();
-        ModelMap modelMap = modelAndView.getModelMap();
-
-        modelAndView.setViewName("pages/homepage");
-        modelMap.addAttribute("users", this.userManager.getUsers());
-
-        return modelAndView;
+        return "pages/homepage";
     }
 
     @GetMapping(value = "/pages/contact")
-    public ModelAndView contact()
+    public String contact()
     {
-        ModelAndView modelAndView = new ModelAndView();
-
-        modelAndView.setViewName("pages/contact.html");
-
-        return modelAndView;
+        return "pages/contact.html";
     }
 
     @GetMapping(value = "/pages/info")
-    public ModelAndView info()
+    public String info()
     {
-        ModelAndView modelAndView = new ModelAndView();
-
-        modelAndView.setViewName("pages/info.html");
-
-        return modelAndView;
+        return "pages/info.html";
     }
 }

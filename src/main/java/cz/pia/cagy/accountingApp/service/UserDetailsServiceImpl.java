@@ -26,7 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService
     {
         System.out.println(username);
         User user = userRepository.findByUsername(username);
-
+        System.out.println(user.getFirstName() + user.getPassword() + user.getId());
         if (user != null)
         {
             Set<GrantedAuthority> grantedAuthorities = new HashSet<>();

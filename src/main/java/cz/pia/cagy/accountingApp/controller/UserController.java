@@ -53,6 +53,8 @@ public class UserController extends BaseController
 
         modelMap.addAttribute("user", this.userService.getUserById(loggedUser.getUserId()));
         modelMap.addAttribute("roles", this.roleService.getRoles());
+        modelMap.addAttribute("formUrl", "/user-edit");
+        modelMap.addAttribute("formSubmit", "Uložit");
 
         return modelAndView;
     }

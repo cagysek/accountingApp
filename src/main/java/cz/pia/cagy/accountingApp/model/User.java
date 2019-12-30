@@ -37,15 +37,17 @@ public class User extends BaseEntity
     @Column(name = "username")
     private String username;
 
-    @Transient
     @Column(name = "password", nullable = false)
     private String password;
+
+    @Transient
+    private String passwordConfirm;
 
     @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @OneToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "role_id", nullable = false)
+    @OneToOne
+    @JoinColumn(name = "role_id", nullable = false, insertable = false, updatable = false)
     private Role role;
 }
