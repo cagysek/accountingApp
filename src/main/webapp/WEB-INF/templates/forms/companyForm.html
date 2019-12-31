@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+<form action="#" th:action="@{${formUrl}}" th:object="${company}" method="post">
+    <input type="hidden" th:field="*{id}" th:value="${company?.getId()}" />
+    <input type="hidden" th:field="*{address.id}" th:value="${company?.getAddress()?.getId()}" />
+    <table class="table">
+        <thead>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">Název</th>
+            <td><input type="text" class="form-control" th:field="*{name}" th:value="${company?.getName()}" /></td>
+        </tr>
+        <tr>
+            <th scope="row">IČ</th>
+            <td><input type="text" class="form-control" th:field="*{ic}" th:value="${company?.getIc()}" /></td>
+        </tr>
+        <tr>
+            <th scope="row">DIČ</th>
+            <td><input type="text" class="form-control" th:field="*{dic}" th:value="${company?.getDic()}" /></td>
+        </tr>
+        <tr>
+            <th scope="row">Telefon</th>
+            <td><input type="text" class="form-control" th:field="*{phone}" th:value="${company?.getPhone()}" /></td>
+        </tr>
+        <tr>
+            <th scope="row">Email</th>
+            <td><input type="text" class="form-control" th:field="*{email}" th:value="${company?.getEmail()}" /></td>
+        </tr>
+        <tr>
+            <th scope="row">Číslo účtu</th>
+            <td><input type="text" class="form-control" th:field="*{accountNumber}" th:value="${company?.getAccountNumber()}" /></td>
+        </tr>
+        <tr>
+            <th scope="row">Adresa</th>
+            <td>
+                <input type="text" class="form-control" th:field="*{address.street}" th:value="${company?.getAddress()?.getStreet()}" placeholder="Adresa"/><br>
+                <input type="text" class="form-control" th:field="*{address.city}" th:value="${company?.getAddress()?.getCity()}" placeholder="Město"/><br>
+                <input type="text" class="form-control" th:field="*{address.zip}" th:value="${company?.getAddress()?.getZip()}" placeholder="PSČ"/>
+            </td>
+        </tr>
+        <tr>
+            <th><button type="submit"><span th:text="${formSubmit}" /></button></th>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+
+
+</html>

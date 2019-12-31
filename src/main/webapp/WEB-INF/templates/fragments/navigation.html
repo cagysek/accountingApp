@@ -14,6 +14,9 @@
             <li sec:authorize="hasAuthority('ADMIN')">
                 <a class="nav-link" th:href="@{/admin/users}">Přehled uživatelů</a>
             </li>
+            <li sec:authorize="hasAuthority('PURSER')">
+                <a class="nav-link" th:href="@{/purser/companies-list}">Seznam kontaktů</a>
+            </li>
         </ul>
         <ul class="navbar-nav ml-auto nav-flex-icons">
             <div sec:authorize="isAnonymous()">

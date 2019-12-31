@@ -20,5 +20,5 @@ public class Address extends BaseEntity
     private String city;
 
     @Column(name = "zip")
-    private int zip;
+    private Integer zip;
 }

@@ -60,7 +60,7 @@ public class UserController extends BaseController
     }
 
     @PostMapping(value = "/user-edit")
-    public String saveUserEdit(@Valid User user, BindingResult bindingResult)
+    public String userEditSave(@Valid User user, BindingResult bindingResult)
     {
         if (bindingResult.hasErrors()) {
             return "user/edit";

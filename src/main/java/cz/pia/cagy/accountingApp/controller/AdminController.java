@@ -30,7 +30,7 @@ public class AdminController extends BaseController
     @GetMapping(value = "/admin/users")
     public ModelAndView usersOverview()
     {
-        ModelAndView modelAndView = new ModelAndView("admin/userOverview");
+        ModelAndView modelAndView = new ModelAndView("admin/usersList");
         ModelMap modelMap = modelAndView.getModelMap();
         modelMap.addAttribute("users", this.userService.getUsers());
 

@@ -19,12 +19,12 @@
         <tbody>
             <th:block th:each="user : ${users}">
                 <tr>
-                    <td th:text="${user.getId()}"></td>
-                    <td th:text="${user.getUsername()}"></td>
-                    <td th:text="${user.getFirstName()}"></td>
-                    <td th:text="${user.getLastName()}"></td>
-                    <td th:text="${user.getEmail()}"></td>
-                    <td th:if="${user.getRole() != null}" th:text="${user.getRole().getName()}"></td>
+                    <td th:text="${user?.getId()}"></td>
+                    <td th:text="${user?.getUsername()}"></td>
+                    <td th:text="${user?.getFirstName()}"></td>
+                    <td th:text="${user?.getLastName()}"></td>
+                    <td th:text="${user?.getEmail()}"></td>
+                    <td th:text="${user?.getRole()?.getName()}"></td>
                     <td><a th:href="@{/admin/user-edit(user-id=${user.getId()})}">Edit</a></td>
                     <td><a th:href="@{/admin/user-delete(user-id=${user.getId()})}">Delete</a></td>
                 </tr>
