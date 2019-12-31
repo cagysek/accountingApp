@@ -23,7 +23,7 @@
                 <td th:text="${company?.getIc()}"></td>
                 <td th:text="${company?.getDic()}"></td>
                 <td><a th:href="@{/purser/company-edit(company-id=${company.getId()})}">Edit</a></td>
-                <td><a th:href="@{/admin/company-delete(company-id=${company.getId()})}">Delete</a></td>
+                <td><a th:href="@{/purser/company-delete(company-id=${company.getId()})}">Delete</a></td>
             </tr>
         </th:block>
         </tbody>

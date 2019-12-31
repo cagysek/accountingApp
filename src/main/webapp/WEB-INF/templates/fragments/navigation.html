@@ -17,6 +17,9 @@
             <li sec:authorize="hasAuthority('PURSER')">
                 <a class="nav-link" th:href="@{/purser/companies-list}">Seznam kontaktů</a>
             </li>
+            <li sec:authorize="hasAuthority('PURSER')">
+                <a class="nav-link" th:href="@{/purser/invoice-list}">Faktury</a>
+            </li>
         </ul>
         <ul class="navbar-nav ml-auto nav-flex-icons">
             <div sec:authorize="isAnonymous()">

@@ -4,6 +4,7 @@ package cz.pia.cagy.accountingApp.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,9 +27,11 @@ public class Invoice extends BaseEntity
     private Company billToCompany;
 
     @Column(name = "datePublish")
+    @DateTimeFormat(pattern = "yyyy/MM/dd")
     private Date datePublish;
 
     @Column(name = "datePayment")
+    @DateTimeFormat(pattern = "yyyy/MM/dd")
     private Date datePayment;
 
     @Column(name = "is_storno")

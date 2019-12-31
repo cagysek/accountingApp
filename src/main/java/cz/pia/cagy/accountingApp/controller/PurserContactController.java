@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 
 @Controller
-public class PurserController extends BaseController
+public class PurserContactController extends BaseController
 {
 
     private final String DEFAULT_REDIRECT = "redirect:/purser/companies-list";
@@ -22,7 +22,7 @@ public class PurserController extends BaseController
     private CompanyService companyService;
 
     @Autowired
-    public PurserController(CompanyService companyService)
+    public PurserContactController(CompanyService companyService)
     {
         this.companyService = companyService;
     }
@@ -30,7 +30,7 @@ public class PurserController extends BaseController
     @GetMapping(value = "/purser/companies-list")
     public ModelAndView companiesList()
     {
-        ModelAndView modelAndView = new ModelAndView("purser/companiesList");
+        ModelAndView modelAndView = new ModelAndView("purser/contact/companyList");
 
         modelAndView.getModelMap().addAttribute("companiesList", this.companyService.getCompanies());
 
@@ -40,7 +40,7 @@ public class PurserController extends BaseController
     @GetMapping(value = "/purser/company-edit")
     public ModelAndView companyEdit(@RequestParam(value = "company-id", required = true) Long companyId)
     {
-        ModelAndView modelAndView = new ModelAndView("purser/companyEdit");
+        ModelAndView modelAndView = new ModelAndView("purser/contact/companyEdit");
         ModelMap modelMap = modelAndView.getModelMap();
         modelMap.addAttribute("company", this.companyService.getCompanyById(companyId));
         modelMap.addAttribute("formUrl", "/purser/company-edit");
@@ -54,7 +54,7 @@ public class PurserController extends BaseController
     public String companyEditSave(@Valid Company company, BindingResult bindingResult)
     {
         if (bindingResult.hasErrors()) {
-            return "purser/companyEdit";
+            return "purser/contact/companyEdit";
         }
 
         this.companyService.saveCompany(company);
@@ -78,7 +78,7 @@ public class PurserController extends BaseController
     public String companyAddSave(@Valid Company company, BindingResult bindingResult)
     {
         if (bindingResult.hasErrors()) {
-            return "purser/companyAdd";
+            return "purser/constact/companyAdd";
         }
 
         this.companyService.saveCompany(company);
@@ -86,7 +86,7 @@ public class PurserController extends BaseController
         return this.DEFAULT_REDIRECT;
     }
 
-    @GetMapping(value = "/admin/company-delete")
+    @GetMapping(value = "/purser/company-delete")
     public String companyDelete(@RequestParam(value = "company-id", required = true) Long companyId)
     {
         this.companyService.deleteCompanyById(companyId);

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.w3.org/1999/xhtml"
+>
+
+<form action="#" th:action="@{${formUrl}}" th:object="${invoice}" method="post">
+    <input type="hidden" th:field="*{id}" th:value="${invoice?.getId()}" />
+    <table class="table">
+        <thead>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">Dodavatel</th>
+            <td>
+                <select class="form-control" th:field="*{supplierCompany}" th:value="${invoice?.getSupplierCompany()?.getId()}">
+                    <th:block th:each="company : ${companiesList}">
+                        <option th:value="${company.getId()}" th:text="${company.getName()}"></option>
+                    </th:block>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">Odběratel</th>
+            <td>
+                <select class="form-control" th:field="*{billToCompany}" th:value="${invoice?.getBillToCompany()?.getId()}">
+                    <th:block th:each="company : ${companiesList}">
+                        <option th:value="${company.getId()}" th:text="${company.getName()}"></option>
+                    </th:block>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">Datum vytvoření</th>
+            <td><input type="text" class="datepicker form-control" th:field="*{datePublish}" th:value="${#dates.format(invoice?.getDatePublish(), 'yyyy/MM/dd')}" /></td>
+        </tr>
+        <tr>
+            <th scope="row">Datum splatnosti</th>
+            <td><input type="text" class="datepicker form-control" th:field="*{datePayment}" th:value="${#dates.format(invoice?.getDatePayment(), 'yyyy/MM/dd')}" /></td>
+        </tr>
+        <tr>
+            <th><button type="submit"><span th:text="${formSubmit}" /></button></th>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+
+
+
+</html>
