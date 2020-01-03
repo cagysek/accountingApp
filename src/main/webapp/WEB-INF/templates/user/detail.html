@@ -44,9 +44,9 @@
         <tr>
             <th scope="row">Adresa</th>
             <td>
-                <span th:text="${user.getAddress().getStreet()}"></span><br>
-                <span th:text="${user.getAddress().getCity()}"></span><br>
-                <span th:text="${user.getAddress().getZip()}"></span>
+                <span th:text="${user?.getAddress()?.getStreet()}"></span><br>
+                <span th:text="${user?.getAddress()?.getCity()}"></span><br>
+                <span th:text="${user?.getAddress()?.getZip()}"></span>
             </td>
         </tr>
         </tbody>

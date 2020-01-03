@@ -3,7 +3,7 @@
       layout:decorator="~{/layouts/pageLayout}">
 
 <div layout:fragment="content">
-    <h2>Seznam kontaktů</h2>
+    <h2>Seznam faktur</h2>
     <a th:href="@{/purser/invoice-add}"><button type="button" class="btn btn-success">Nový</button></a>
     <table class="table" xmlns:th="http://www.w3.org/1999/xhtml">
         <thead>
@@ -26,6 +26,7 @@
                 <td th:text="${#dates.format(invoice?.getDatePayment(), 'yyyy/MM/dd')}"></td>
                 <td><a th:href="@{/purser/invoice-edit(invoice-id=${invoice.getId()})}">Edit</a></td>
                 <td><a th:href="@{/purser/invoice-delete(invoice-id=${invoice.getId()})}">Delete</a></td>
+                <td><a th:href="@{/purser/invoice-detail(invoice-id=${invoice.getId()})}">Detail</a></td>
             </tr>
         </th:block>
         </tbody>

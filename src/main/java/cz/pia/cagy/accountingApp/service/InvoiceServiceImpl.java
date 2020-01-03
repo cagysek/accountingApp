@@ -1,10 +1,13 @@
 package cz.pia.cagy.accountingApp.service;
 
 import cz.pia.cagy.accountingApp.model.Invoice;
+import cz.pia.cagy.accountingApp.model.InvoiceItem;
 import cz.pia.cagy.accountingApp.repository.InvoiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,16 +27,37 @@ public class InvoiceServiceImpl implements InvoiceService
         return this.invoiceRepository.findAll();
     }
 
+    @Transactional
     @Override
     public void saveInvoice(Invoice invoice)
     {
+
+        for (InvoiceItem item : invoice.getInvoiceItems())
+        {
+            item.setInvoice(invoice);
+        }
+
+
         this.invoiceRepository.save(invoice);
     }
 
     @Override
     public Invoice getInvoiceById(long id)
     {
-        return this.invoiceRepository.findById(id);
+        Invoice invoice = this.invoiceRepository.findById(id);
+        long finalPrice = 0;
+        long finalPriceDph = 0;
+
+        for (InvoiceItem item : invoice.getInvoiceItems())
+        {
+            finalPrice += item.getPrice();
+            finalPriceDph += item.getPriceDph();
+        }
+
+        invoice.setTotalPrice(finalPrice);
+        invoice.setTotalPriceDph(finalPriceDph);
+
+        return invoice;
     }
 
     @Override

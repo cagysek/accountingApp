@@ -39,13 +39,58 @@
             <td><input type="text" class="datepicker form-control" th:field="*{datePayment}" th:value="${#dates.format(invoice?.getDatePayment(), 'yyyy/MM/dd')}" /></td>
         </tr>
         <tr>
-            <th><button type="submit"><span th:text="${formSubmit}" /></button></th>
-            <td></td>
+            <th scope="row">Datum zdan. plnění</th>
+            <td><input type="text" class="datepicker form-control" th:field="*{dateTaxableSupply}" th:value="${#dates.format(invoice?.getDateTaxableSupply(), 'yyyy/MM/dd')}" /></td>
         </tr>
         </tbody>
     </table>
-</form>
 
+    <h3>Položky faktury</h3>
+<div id="movieList">
+    <div class="row">
+        <div class="col form-group d-none">ID</div>
+        <div class="col form-group">Název</div>
+        <div class="col form-group">Počet (ks)</div>
+        <div class="col form-group">DPH (%)</div>
+        <div class="col form-group">Cena (Kč)</div>
+        <div class="col form-group">Cena s DPH (Kč)</div>
+    </div>
+    <div class="row item" th:each="invoiceItem, i : *{invoiceItems}">
+        <div class="col form-group d-none">
+            <input th:field="*{invoiceItems[__${i.index}__].id}" type="text" class="form-control">
+        </div>
+        <div class="col form-group">
+            <input th:field="*{invoiceItems[__${i.index}__].name}" type="text" class="form-control">
+        </div>
+        <div class="col form-group">
+            <input th:field="*{invoiceItems[__${i.index}__].quantity}" type="text" class="form-control">
+        </div>
+        <div class="col form-group">
+            <input th:field="*{invoiceItems[__${i.index}__].priceVat}" type="text" class="form-control">
+        </div>
+        <div class="col form-group">
+            <input th:field="*{invoiceItems[__${i.index}__].price}" type="text" class="form-control">
+        </div>
+        <div class="col form-group">
+            <input th:field="*{invoiceItems[__${i.index}__].priceDph}" type="text" class="form-control">
+        </div>
+        <a class="remove btn btn-danger" href="#" role="button" onclick="removeInputField(this);">Remove</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <button type="button" class="btn btn-success" onclick="addRow()">Add row</button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <button type="submit"><span th:text="${formSubmit}" /></button>
+    </div>
+</div>
+
+</form>
 
 
 </html>

@@ -2,3 +2,8 @@
     display: block;
     margin-top: 0;
 }
+
+.price-box {
+    position: relative;
+    float: right;
+}

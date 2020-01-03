@@ -2,6 +2,7 @@ package cz.pia.cagy.accountingApp.controller;
 
 import cz.pia.cagy.accountingApp.model.Invoice;
 import cz.pia.cagy.accountingApp.service.CompanyService;
+import cz.pia.cagy.accountingApp.service.InvoiceItemService;
 import cz.pia.cagy.accountingApp.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,12 +21,17 @@ public class PurserInvoiceController extends BaseController
     private final String DEFAULT_REDIRECT = "redirect:/purser/invoice-list";
     private InvoiceService invoiceService;
     private CompanyService companyService;
+    private InvoiceItemService invoiceItemService;
 
     @Autowired
-    public PurserInvoiceController(InvoiceService invoiceService, CompanyService companyService)
+    public PurserInvoiceController(InvoiceService invoiceService,
+                                   CompanyService companyService,
+                                   InvoiceItemService invoiceItemService
+    )
     {
         this.invoiceService = invoiceService;
         this.companyService = companyService;
+        this.invoiceItemService = invoiceItemService;
     }
 
     @GetMapping(value = "/purser/invoice-list")
@@ -59,6 +65,7 @@ public class PurserInvoiceController extends BaseController
             return "purser/invoice/invoiceAdd";
         }
 
+
         this.invoiceService.saveInvoice(invoice);
 
         return this.DEFAULT_REDIRECT;
@@ -82,9 +89,9 @@ public class PurserInvoiceController extends BaseController
     public String invoiceEditSave(@Valid Invoice invoice, BindingResult bindingResult)
     {
         if (bindingResult.hasErrors()) {
-            System.out.println(bindingResult.getAllErrors());
             return "purser/invoice/invoiceEdit";
         }
+
         this.invoiceService.saveInvoice(invoice);
 
         return this.DEFAULT_REDIRECT;
@@ -95,5 +102,16 @@ public class PurserInvoiceController extends BaseController
     {
         this.invoiceService.deleteInvoiceById(invoiceId);
         return this.DEFAULT_REDIRECT;
+    }
+
+    @GetMapping(value = "/purser/invoice-detail")
+    public ModelAndView invoiceDetail(@RequestParam(value = "invoice-id", required = true) Long invoiceId)
+    {
+        ModelAndView modelAndView = new ModelAndView("purser/invoice/invoiceDetail");
+        ModelMap modelMap = modelAndView.getModelMap();
+        modelMap.addAttribute("invoice", this.invoiceService.getInvoiceById(invoiceId));
+
+
+        return modelAndView;
     }
 }

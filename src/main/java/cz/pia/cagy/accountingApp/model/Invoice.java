@@ -1,16 +1,16 @@
 package cz.pia.cagy.accountingApp.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -26,15 +26,24 @@ public class Invoice extends BaseEntity
     @JoinColumn(name = "bill_to_company_id")
     private Company billToCompany;
 
-    @Column(name = "datePublish")
+    @Column(name = "date_publish")
     @DateTimeFormat(pattern = "yyyy/MM/dd")
     private Date datePublish;
 
-    @Column(name = "datePayment")
+    @Column(name = "date_payment")
     @DateTimeFormat(pattern = "yyyy/MM/dd")
     private Date datePayment;
 
-    @Column(name = "is_storno")
-    private boolean isStorno;
+    @Column(name = "date_taxable_supply")
+    @DateTimeFormat(pattern = "yyyy/MM/dd")
+    private Date dateTaxableSupply;
 
+    @Transient
+    private long totalPrice;
+
+    @Transient
+    private long totalPriceDph;
+
+    @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<InvoiceItem> invoiceItems = new ArrayList<>();
 }
