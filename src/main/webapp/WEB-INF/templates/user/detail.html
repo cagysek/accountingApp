@@ -3,7 +3,7 @@
       layout:decorator="~{/layouts/pageLayout}">
 
 <div layout:fragment="content">
-    <h2>Detail uživatele <span th:text="${user.getUsername()}"></span></h2> <a th:href="@{/user-edit}">Edit</a>
+    <h2>Detail uživatele <span th:text="${user.getUsername()}"></span></h2> <a th:href="@{/user-edit}">Edit</a><a th:href="@{/user-change-password}">Změna hesla</a>
 
     <table class="table">
         <thead>

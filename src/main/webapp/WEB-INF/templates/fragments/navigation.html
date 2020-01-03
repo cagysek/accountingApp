@@ -30,7 +30,7 @@
             <div sec:authorize="isAuthenticated()">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">Vítej <span th:text="${username}"></span></a>
+                       aria-haspopup="true" aria-expanded="false">Vítej <span sec:authentication="name"></span></a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" th:href="@{/user-detail}">Přehled</a>
                         <a class="dropdown-item" href="#" onclick="document.forms['logoutForm'].submit()">Odhlásit se</a>

@@ -1,17 +1,21 @@
 package cz.pia.cagy.accountingApp.controller;
 
+import cz.pia.cagy.accountingApp.form.ChangePasswordForm;
 import cz.pia.cagy.accountingApp.form.LoginForm;
 import cz.pia.cagy.accountingApp.model.User;
 import cz.pia.cagy.accountingApp.security.LoggedUser;
 import cz.pia.cagy.accountingApp.service.RoleService;
 import cz.pia.cagy.accountingApp.service.UserService;
 import cz.pia.cagy.accountingApp.service.UserServiceImpl;
+import cz.pia.cagy.accountingApp.validator.ChangePasswordValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,12 +26,23 @@ public class UserController extends BaseController
 {
     private UserService userService;
     private RoleService roleService;
+    private ChangePasswordValidator changePasswordValidator;
 
-    public UserController(UserService userService, RoleService roleService)
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.addValidators(this.changePasswordValidator);
+    }
+
+    @Autowired
+    public UserController(UserService userService, RoleService roleService, ChangePasswordValidator changePasswordValidator)
     {
         this.userService = userService;
         this.roleService = roleService;
+        this.changePasswordValidator = changePasswordValidator;
     }
+
+
+
 
     @GetMapping(value = "/user-detail")
     public ModelAndView userDetail(Authentication authentication)
@@ -67,6 +82,30 @@ public class UserController extends BaseController
         }
 
         this.userService.saveUser(user);
+
+        return "redirect:/user-detail";
+    }
+
+    @GetMapping(value = "/user-change-password")
+    public ModelAndView userChangePassword()
+    {
+        ModelAndView modelAndView = new ModelAndView("user/changePassword");
+        modelAndView.getModelMap().addAttribute("changePasswordForm", new ChangePasswordForm());
+
+        return modelAndView;
+    }
+
+    @PostMapping(value = "/user-change-password")
+    public String userChangePasswordSave(@Valid ChangePasswordForm form, BindingResult bindingResult, Authentication authentication)
+    {
+        if (bindingResult.hasErrors()) {
+            System.out.println(bindingResult.getAllErrors());
+            return "user/changePassword";
+        }
+
+        LoggedUser loggedUser = (LoggedUser) authentication.getPrincipal();
+
+        this.userService.changeUserPassword(loggedUser.getUserId(), form.getNewPassword());
 
         return "redirect:/user-detail";
     }

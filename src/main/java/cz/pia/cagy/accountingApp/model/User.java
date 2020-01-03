@@ -43,6 +43,9 @@ public class User extends BaseEntity
     @Transient
     private String passwordConfirm;
 
+    @Transient
+    private String newPassword;
+
     @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "address_id")
     private Address address;

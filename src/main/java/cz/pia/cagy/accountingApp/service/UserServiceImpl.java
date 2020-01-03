@@ -42,9 +42,15 @@ public class UserServiceImpl implements UserService
     @Override
     public void saveUser(User user)
     {
+
         if (user.getPassword() != null)
         {
             user.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
+        }
+        else
+        {
+            User dbUser = this.getUserById(user.getId());
+            user.setPassword(dbUser.getPassword());
         }
 
         this.userRepository.save(user);
@@ -54,6 +60,16 @@ public class UserServiceImpl implements UserService
     public void deleteUserById(long userId)
     {
         this.userRepository.deleteById(userId);
+    }
+
+    @Override
+    public void changeUserPassword(long id, String newPassword)
+    {
+        User user = this.getUserById(id);
+
+        user.setPassword(this.bCryptPasswordEncoder.encode(newPassword));
+
+        this.userRepository.save(user);
     }
 
 }
