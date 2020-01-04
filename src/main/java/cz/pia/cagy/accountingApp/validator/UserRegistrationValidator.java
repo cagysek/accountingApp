@@ -21,7 +21,6 @@ public class UserRegistrationValidator implements Validator
     @Override
     public void validate(Object o, Errors errors)
     {
-        System.out.println("kokotko");
        // ValidationUtils.rejectIfEmpty(errors, "firstName", "test","bbb");
 
     }

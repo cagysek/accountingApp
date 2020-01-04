@@ -42,6 +42,16 @@
             <th scope="row">Datum zdan. plnění</th>
             <td><input type="text" class="datepicker form-control" th:field="*{dateTaxableSupply}" th:value="${#dates.format(invoice?.getDateTaxableSupply(), 'yyyy/MM/dd')}" /></td>
         </tr>
+        <tr>
+            <th scope="row">Stav</th>
+            <td>
+                <select class="form-control" th:field="*{type}" th:value="${invoice?.getType()}">
+                    <th:block th:each="type : ${T(cz.pia.cagy.accountingApp.model.enums.EInvoiceType).values()}">
+                        <option th:value="${type}" th:text="${type.displayValue}"></option>
+                    </th:block>
+                </select>
+            </td>
+        </tr>
         </tbody>
     </table>
 

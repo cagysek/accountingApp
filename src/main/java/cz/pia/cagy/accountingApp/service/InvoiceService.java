@@ -12,5 +12,5 @@ public interface InvoiceService
 
     Invoice getInvoiceById(long id);
 
-    void deleteInvoiceById(long id);
+    void stornoInvoice(long id);
 }

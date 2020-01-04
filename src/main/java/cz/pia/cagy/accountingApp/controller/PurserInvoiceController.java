@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -69,8 +70,17 @@ public class PurserInvoiceController extends BaseController
     }
 
     @GetMapping(value = "/purser/invoice-edit")
-    public ModelAndView invoiceEdit(@RequestParam(value = "invoice-id", required = true) Long invoiceId)
+    public ModelAndView invoiceEdit(@RequestParam(value = "invoice-id", required = true) Long invoiceId, RedirectAttributes atts)
     {
+        Invoice invoice = this.invoiceService.getInvoiceById(invoiceId);
+
+        if (invoice.isStorno())
+        {
+            atts.addFlashAttribute("error", "Stornovanou faktruru nelze editovat");
+
+            return new ModelAndView(this.DEFAULT_REDIRECT);
+        }
+
         ModelAndView modelAndView = new ModelAndView("purser/invoice/invoiceEdit");
         ModelMap modelMap = modelAndView.getModelMap();
         modelMap.addAttribute("invoicesList", this.invoiceService.getInvoices());
@@ -97,7 +107,7 @@ public class PurserInvoiceController extends BaseController
     @GetMapping(value = "/purser/invoice-delete")
     public String companyDelete(@RequestParam(value = "invoice-id", required = true) Long invoiceId)
     {
-        this.invoiceService.deleteInvoiceById(invoiceId);
+        this.invoiceService.stornoInvoice(invoiceId);
         return this.DEFAULT_REDIRECT;
     }
 

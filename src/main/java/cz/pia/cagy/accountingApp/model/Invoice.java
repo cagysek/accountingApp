@@ -2,6 +2,7 @@ package cz.pia.cagy.accountingApp.model;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import cz.pia.cagy.accountingApp.model.enums.EInvoiceType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -37,6 +38,13 @@ public class Invoice extends BaseEntity
     @Column(name = "date_taxable_supply")
     @DateTimeFormat(pattern = "yyyy/MM/dd")
     private Date dateTaxableSupply;
+
+    @Column(name = "is_storno")
+    private boolean isStorno;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type")
+    private EInvoiceType type;
 
     @Transient
     private long totalPrice;

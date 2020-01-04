@@ -61,8 +61,13 @@ public class InvoiceServiceImpl implements InvoiceService
     }
 
     @Override
-    public void deleteInvoiceById(long id)
+    public void stornoInvoice(long id)
     {
-        this.invoiceRepository.deleteById(id);
+        Invoice invoice = this.invoiceRepository.findById(id);
+        invoice.setStorno(true);
+
+        this.invoiceRepository.save(invoice);
     }
+
+
 }
