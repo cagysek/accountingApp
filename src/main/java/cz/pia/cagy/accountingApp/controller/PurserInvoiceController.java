@@ -73,7 +73,7 @@ public class PurserInvoiceController extends BaseController
     }
 
     @GetMapping(value = "/purser/invoice-edit")
-    public ModelAndView invoiceEdit(@RequestParam(value = "invoice-id", required = true) Long invoiceId, RedirectAttributes atts)
+    public ModelAndView invoiceEdit(@RequestParam(value = "invoice-id") Long invoiceId, RedirectAttributes atts)
     {
         Invoice invoice = this.invoiceService.getInvoiceById(invoiceId);
 
@@ -112,7 +112,7 @@ public class PurserInvoiceController extends BaseController
     }
 
     @GetMapping(value = "/purser/invoice-delete")
-    public String companyDelete(@RequestParam(value = "invoice-id", required = true) Long invoiceId, RedirectAttributes atts)
+    public String companyDelete(@RequestParam(value = "invoice-id") Long invoiceId, RedirectAttributes atts)
     {
         this.invoiceService.stornoInvoice(invoiceId);
 
@@ -122,11 +122,19 @@ public class PurserInvoiceController extends BaseController
     }
 
     @GetMapping(value = "/purser/invoice-detail")
-    public ModelAndView invoiceDetail(@RequestParam(value = "invoice-id", required = true) Long invoiceId)
+    public ModelAndView invoiceDetail(@RequestParam(value = "invoice-id") Long invoiceId, RedirectAttributes atts)
     {
+        Invoice invoice = this.invoiceService.getInvoiceById(invoiceId);
+
+        if (invoice == null)
+        {
+            atts.addFlashAttribute(EFlashMessageType.ERROR.toString(), "Faktura nebyla nalezena.");
+            return new ModelAndView(this.DEFAULT_REDIRECT);
+        }
+
         ModelAndView modelAndView = new ModelAndView("purser/invoice/invoiceDetail");
         ModelMap modelMap = modelAndView.getModelMap();
-        modelMap.addAttribute("invoice", this.invoiceService.getInvoiceById(invoiceId));
+        modelMap.addAttribute("invoice", invoice);
 
         return modelAndView;
     }

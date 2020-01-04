@@ -35,7 +35,8 @@ public class UserDetailsServiceImpl implements UserDetailsService
 
             return new LoggedUser(user.getUsername(), user.getPassword(), grantedAuthorities, user.getId());
         }
-
-        return null;
+        else {
+            throw new UsernameNotFoundException("User not found");
+        }
     }
 }

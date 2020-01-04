@@ -22,6 +22,9 @@ public class AdminController extends BaseController
     private UserService userService;
     private RoleService roleService;
 
+    private final String DEFAULT_REDIRECT = "redirect:/admin/users";
+
+
     @Autowired
     public AdminController(UserService userService, RoleService roleService)
     {
@@ -41,12 +44,20 @@ public class AdminController extends BaseController
 
 
     @GetMapping(value = "/admin/user-edit")
-    public ModelAndView userEdit(@RequestParam(value = "user-id", required = true) Long userId)
+    public ModelAndView userEdit(@RequestParam(value = "user-id") Long userId, RedirectAttributes atts)
     {
+        User user = this.userService.getUserById(userId);
+
+        if (user == null)
+        {
+            atts.addFlashAttribute(EFlashMessageType.ERROR.toString(), "Uživatel nebyl nalezen.");
+            return new ModelAndView(this.DEFAULT_REDIRECT);
+        }
+
         ModelAndView modelAndView = new ModelAndView("admin/userEdit");
 
         ModelMap modelMap = modelAndView.getModelMap();
-        modelMap.addAttribute("user", this.userService.getUserById(userId));
+        modelMap.addAttribute("user", user);
         modelMap.addAttribute("roles", this.roleService.getRoles());
         modelMap.addAttribute("formUrl", "/user-edit");
         modelMap.addAttribute("formSubmit", "Uložit");
@@ -80,16 +91,16 @@ public class AdminController extends BaseController
 
         atts.addFlashAttribute(EFlashMessageType.SUCCESS.toString(), "Uživatel byl úspěšně vytvořen.");
 
-        return "redirect:/admin/user-edit?user-id=" + user.getId();
+        return this.DEFAULT_REDIRECT;
     }
 
     @GetMapping(value = "/admin/user-delete")
-    public String userDelete(@RequestParam(value = "user-id", required = true) Long userId, RedirectAttributes atts)
+    public String userDelete(@RequestParam(value = "user-id") Long userId, RedirectAttributes atts)
     {
         this.userService.deleteUserById(userId);
 
         atts.addFlashAttribute(EFlashMessageType.SUCCESS.toString(), "Uživatel úspěšně odstraněn");
 
-        return "redirect:/admin/users";
+        return this.DEFAULT_REDIRECT;
     }
 }

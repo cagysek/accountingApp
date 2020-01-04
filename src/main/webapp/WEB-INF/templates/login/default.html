@@ -6,6 +6,11 @@
 >
 
 <div layout:fragment="content">
+    <div class="dialog-row">
+        <label th:if="${param.error}">
+            Neplatné přihlášení. Zkuste to prosím znovu.
+        </label>
+    </div>
     <div th:include="forms/loginForm"></div>
 </div>
 

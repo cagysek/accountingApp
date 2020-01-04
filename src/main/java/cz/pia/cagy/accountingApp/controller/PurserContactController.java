@@ -40,11 +40,19 @@ public class PurserContactController extends BaseController
     }
 
     @GetMapping(value = "/purser/company-edit")
-    public ModelAndView companyEdit(@RequestParam(value = "company-id", required = true) Long companyId)
+    public ModelAndView companyEdit(@RequestParam(value = "company-id") Long companyId, RedirectAttributes atts)
     {
+        Company company = this.companyService.getCompanyById(companyId);
+
+        if (company == null)
+        {
+            atts.addFlashAttribute(EFlashMessageType.ERROR.toString(), "Kontakt nebyl nalezen.");
+            return new ModelAndView(this.DEFAULT_REDIRECT);
+        }
+
         ModelAndView modelAndView = new ModelAndView("purser/contact/companyEdit");
         ModelMap modelMap = modelAndView.getModelMap();
-        modelMap.addAttribute("company", this.companyService.getCompanyById(companyId));
+        modelMap.addAttribute("company", company);
         modelMap.addAttribute("formUrl", "/purser/company-edit");
         modelMap.addAttribute("formSubmit", "Uložit");
 
@@ -93,7 +101,7 @@ public class PurserContactController extends BaseController
     }
 
     @GetMapping(value = "/purser/company-delete")
-    public String companyDelete(@RequestParam(value = "company-id", required = true) Long companyId, RedirectAttributes atts)
+    public String companyDelete(@RequestParam(value = "company-id") Long companyId, RedirectAttributes atts)
     {
         this.companyService.deleteCompanyById(companyId);
 
