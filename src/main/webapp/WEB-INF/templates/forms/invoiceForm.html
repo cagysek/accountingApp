@@ -52,8 +52,9 @@
         <div class="col form-group">Název</div>
         <div class="col form-group">Počet (ks)</div>
         <div class="col form-group">DPH (%)</div>
-        <div class="col form-group">Cena (Kč)</div>
-        <div class="col form-group">Cena s DPH (Kč)</div>
+        <div class="col form-group">Cena/ks (Kč)</div>
+        <div class="col form-group">Cena/ks s DPH (Kč)</div>
+        <div class="col form-group"></div>
     </div>
     <div class="row item" th:each="invoiceItem, i : *{invoiceItems}">
         <div class="col form-group d-none">
@@ -74,7 +75,9 @@
         <div class="col form-group">
             <input th:field="*{invoiceItems[__${i.index}__].priceDph}" type="text" class="form-control">
         </div>
-        <a class="remove btn btn-danger" href="#" role="button" onclick="removeInputField(this);">Remove</a>
+        <div class="col form-group">
+            <a class="remove btn btn-danger" href="#" role="button" onclick="removeInputField(this);">Remove</a>
+        </div>
     </div>
 </div>
 

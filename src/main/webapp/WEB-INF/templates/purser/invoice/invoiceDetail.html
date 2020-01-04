@@ -103,11 +103,12 @@
             <thead>
             <tr>
                 <th scope="col">ID</th>
-                <th scope="col">Název produktu</th>
+                <th scope="col">Název</th>
                 <th scope="col">Počet</th>
                 <th scope="col">DPH</th>
-                <th scope="col">Cena</th>
-                <th scope="col">Cena s DPH</th>
+                <th scope="col">Cena/ks</th>
+                <th scope="col">Cena/ks s DPH</th>
+                <th scope="col">Celkem s DPH</th>
             </tr>
             </thead>
             <tbody>
@@ -119,13 +120,14 @@
                     <td><span th:text="${item?.getPriceVat()}"></span> %</td>
                     <td><span th:text="${#numbers.formatDecimal(item?.getPrice(), 1, 'DEFAULT', 2, 'DEFAULT')}"></span> Kč</td>
                     <td><span th:text="${#numbers.formatDecimal(item?.getPriceDph(), 1, 'DEFAULT', 2, 'DEFAULT')}"></span> Kč</td>
+                    <td><span th:with="final=${item?.getPriceDph() * item?.getQuantity()}" th:text="${#numbers.formatDecimal(final, 1, 'DEFAULT', 2, 'DEFAULT')}"></span> Kč</td>
                 </tr>
             </th:block>
             </tbody>
         </table>
 
     </div>
-    <div class="row">w
+    <div class="row">
         <div class="price-box">
             Celková cena:&nbsp<strong><span th:text="${#numbers.formatDecimal(invoice.getTotalPrice(), 1, 'DEFAULT', 2, 'DEFAULT')}"></span> Kč</strong><br>
             Celková cena včetně DPH:&nbsp<strong><span th:text="${#numbers.formatDecimal(invoice.getTotalPriceDph(), 1, 'DEFAULT', 2, 'DEFAULT')}"></span> Kč</strong>

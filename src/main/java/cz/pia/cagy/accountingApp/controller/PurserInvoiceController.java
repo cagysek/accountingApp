@@ -22,17 +22,14 @@ public class PurserInvoiceController extends BaseController
     private final String DEFAULT_REDIRECT = "redirect:/purser/invoice-list";
     private InvoiceService invoiceService;
     private CompanyService companyService;
-    private InvoiceItemService invoiceItemService;
 
     @Autowired
     public PurserInvoiceController(InvoiceService invoiceService,
-                                   CompanyService companyService,
-                                   InvoiceItemService invoiceItemService
+                                   CompanyService companyService
     )
     {
         this.invoiceService = invoiceService;
         this.companyService = companyService;
-        this.invoiceItemService = invoiceItemService;
     }
 
     @GetMapping(value = "/purser/invoice-list")
@@ -66,9 +63,9 @@ public class PurserInvoiceController extends BaseController
             return "purser/invoice/invoiceAdd";
         }
 
-        this.invoiceService.saveInvoice(invoice);
+        long id = this.invoiceService.saveInvoice(invoice);
 
-        return this.DEFAULT_REDIRECT;
+        return "redirect:/purser/invoice-detail?invoice-id=" + id;
     }
 
     @GetMapping(value = "/purser/invoice-edit")
@@ -92,9 +89,9 @@ public class PurserInvoiceController extends BaseController
             return "purser/invoice/invoiceEdit";
         }
 
-        this.invoiceService.saveInvoice(invoice);
+        long id = this.invoiceService.saveInvoice(invoice);
 
-        return this.DEFAULT_REDIRECT;
+        return "redirect:/purser/invoice-detail?invoice-id=" + id;
     }
 
     @GetMapping(value = "/purser/invoice-delete")
@@ -110,7 +107,6 @@ public class PurserInvoiceController extends BaseController
         ModelAndView modelAndView = new ModelAndView("purser/invoice/invoiceDetail");
         ModelMap modelMap = modelAndView.getModelMap();
         modelMap.addAttribute("invoice", this.invoiceService.getInvoiceById(invoiceId));
-
 
         return modelAndView;
     }

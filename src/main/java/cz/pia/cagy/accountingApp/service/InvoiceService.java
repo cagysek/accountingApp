@@ -8,7 +8,7 @@ public interface InvoiceService
 {
     List<Invoice> getInvoices();
 
-    void saveInvoice(Invoice invoice);
+    long saveInvoice(Invoice invoice);
 
     Invoice getInvoiceById(long id);
 

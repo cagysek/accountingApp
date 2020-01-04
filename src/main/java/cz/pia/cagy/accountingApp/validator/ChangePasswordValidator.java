@@ -29,7 +29,7 @@ public class ChangePasswordValidator implements Validator
     @Override
     public boolean supports(Class<?> aClass)
     {
-        return true;
+        return ChangePasswordForm.class.equals(aClass);
     }
 
     @Override

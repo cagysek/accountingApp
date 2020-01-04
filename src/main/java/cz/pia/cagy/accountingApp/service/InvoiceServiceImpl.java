@@ -29,7 +29,7 @@ public class InvoiceServiceImpl implements InvoiceService
 
     @Transactional
     @Override
-    public void saveInvoice(Invoice invoice)
+    public long saveInvoice(Invoice invoice)
     {
 
         for (InvoiceItem item : invoice.getInvoiceItems())
@@ -37,8 +37,8 @@ public class InvoiceServiceImpl implements InvoiceService
             item.setInvoice(invoice);
         }
 
-
-        this.invoiceRepository.save(invoice);
+        Invoice dbInvoice = this.invoiceRepository.save(invoice);
+        return  dbInvoice.getId();
     }
 
     @Override
@@ -50,8 +50,8 @@ public class InvoiceServiceImpl implements InvoiceService
 
         for (InvoiceItem item : invoice.getInvoiceItems())
         {
-            finalPrice += item.getPrice();
-            finalPriceDph += item.getPriceDph();
+            finalPrice += item.getPrice() * item.getQuantity();
+            finalPriceDph += item.getPriceDph() * item.getQuantity();
         }
 
         invoice.setTotalPrice(finalPrice);

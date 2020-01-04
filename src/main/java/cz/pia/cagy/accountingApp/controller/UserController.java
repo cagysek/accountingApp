@@ -8,11 +8,13 @@ import cz.pia.cagy.accountingApp.service.RoleService;
 import cz.pia.cagy.accountingApp.service.UserService;
 import cz.pia.cagy.accountingApp.service.UserServiceImpl;
 import cz.pia.cagy.accountingApp.validator.ChangePasswordValidator;
+import cz.pia.cagy.accountingApp.validator.UserRegistrationValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -27,18 +29,21 @@ public class UserController extends BaseController
     private UserService userService;
     private RoleService roleService;
     private ChangePasswordValidator changePasswordValidator;
+    private UserRegistrationValidator userRegistrationValidator;
 
-    @InitBinder
+    @InitBinder("changePasswordForm")
     protected void initBinder(WebDataBinder binder) {
         binder.addValidators(this.changePasswordValidator);
     }
 
+
     @Autowired
-    public UserController(UserService userService, RoleService roleService, ChangePasswordValidator changePasswordValidator)
+    public UserController(UserService userService, RoleService roleService, ChangePasswordValidator changePasswordValidator, UserRegistrationValidator userRegistrationValidator)
     {
         this.userService = userService;
         this.roleService = roleService;
         this.changePasswordValidator = changePasswordValidator;
+        this.userRegistrationValidator = userRegistrationValidator;
     }
 
 
@@ -75,13 +80,17 @@ public class UserController extends BaseController
     }
 
     @PostMapping(value = "/user-edit")
-    public String userEditSave(@Valid User user, BindingResult bindingResult)
+    public String userEditSave(@Valid User userEdit, BindingResult bindingResult)
     {
         if (bindingResult.hasErrors()) {
+            for (ObjectError error : bindingResult.getAllErrors())
+            {
+                System.out.println(error.getCode().toString());
+            }
             return "user/edit";
         }
 
-        this.userService.saveUser(user);
+        this.userService.saveUser(userEdit);
 
         return "redirect:/user-detail";
     }
@@ -96,7 +105,7 @@ public class UserController extends BaseController
     }
 
     @PostMapping(value = "/user-change-password")
-    public String userChangePasswordSave(@Valid ChangePasswordForm form, BindingResult bindingResult, Authentication authentication)
+    public String userChangePasswordSave(@Valid ChangePasswordForm changePasswordForm, BindingResult bindingResult, Authentication authentication)
     {
         if (bindingResult.hasErrors()) {
             System.out.println(bindingResult.getAllErrors());
@@ -105,7 +114,7 @@ public class UserController extends BaseController
 
         LoggedUser loggedUser = (LoggedUser) authentication.getPrincipal();
 
-        this.userService.changeUserPassword(loggedUser.getUserId(), form.getNewPassword());
+        this.userService.changeUserPassword(loggedUser.getUserId(), changePasswordForm.getNewPassword());
 
         return "redirect:/user-detail";
     }
