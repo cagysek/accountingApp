@@ -4,46 +4,48 @@
 
 <div layout:fragment="content">
     <h2>Seznam faktur</h2>
-    <a th:href="@{/purser/invoice-add}"><button type="button" class="btn btn-success">Nový</button></a>
-    <table class="table" xmlns:th="http://www.w3.org/1999/xhtml">
-        <thead>
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Dodavatel</th>
-            <th scope="col">Odběratel</th>
-            <th scope="col">Datum vytvoření</th>
-            <th scope="col">Datum splatnosti</th>
-            <th scope="col">Stav</th>
-            <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <th:block th:each="invoice : ${invoicesList}">
+    <a th:href="@{/purser/invoice-add}"><button type="button" class="btn btn-success">Nový <i class="fas fa-plus"></i></button></a>
+    <div class="table-wrapper">
+        <table class="table" xmlns:th="http://www.w3.org/1999/xhtml">
+            <thead>
             <tr>
-                <td th:text="${invoice?.getId()}"></td>
-                <td th:text="${invoice?.getSupplierCompany()?.getName()}"></td>
-                <td th:text="${invoice?.getBillToCompany()?.getName()}"></td>
-                <td th:text="${#dates.format(invoice?.getDatePublish(), 'yyyy/MM/dd')}"></td>
-                <td th:text="${#dates.format(invoice?.getDatePayment(), 'yyyy/MM/dd')}"></td>
-                <td>
-                   <span th:if="${!invoice?.isStorno()}">
-                       <span th:text="${invoice?.getType()?.getDisplayValue()}"></span>
-                   </span>
-                    <span th:if="${invoice?.isStorno()}">
-                        Storno
-                    </span>
-                </td>
-                <td>
-                    <a th:href="@{/purser/invoice-detail(invoice-id=${invoice.getId()})}">Detail</a>
-                    <span th:if="${!invoice?.isStorno()}">
-                        <a th:href="@{/purser/invoice-edit(invoice-id=${invoice.getId()})}">Edit</a>
-                        <a th:href="@{/purser/invoice-delete(invoice-id=${invoice.getId()})}">Delete</a>
-                    </span>
-                </td>
+                <th scope="col">ID</th>
+                <th scope="col">Dodavatel</th>
+                <th scope="col">Odběratel</th>
+                <th scope="col">Datum vytvoření</th>
+                <th scope="col">Datum splatnosti</th>
+                <th scope="col">Stav</th>
+                <th scope="col"></th>
             </tr>
-        </th:block>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            <th:block th:each="invoice : ${invoicesList}">
+                <tr>
+                    <td th:text="${invoice?.getId()}"></td>
+                    <td th:text="${invoice?.getSupplierCompany()?.getName()}"></td>
+                    <td th:text="${invoice?.getBillToCompany()?.getName()}"></td>
+                    <td th:text="${#dates.format(invoice?.getDatePublish(), 'yyyy/MM/dd')}"></td>
+                    <td th:text="${#dates.format(invoice?.getDatePayment(), 'yyyy/MM/dd')}"></td>
+                    <td>
+                       <span th:if="${!invoice?.isStorno()}">
+                           <span th:text="${invoice?.getType()?.getDisplayValue()}"></span>
+                       </span>
+                        <span th:if="${invoice?.isStorno()}">
+                            Storno
+                        </span>
+                    </td>
+                    <td>
+                        <a th:href="@{/purser/invoice-detail(invoice-id=${invoice.getId()})}"><i class="fas fa-info-circle"></i></a>
+                        <span th:if="${!invoice?.isStorno()}">
+                            <a th:href="@{/purser/invoice-edit(invoice-id=${invoice.getId()})}"><i class="far fa-edit"></i></a>
+                            <a th:href="@{/purser/invoice-delete(invoice-id=${invoice.getId()})}"><i class="far fa-trash-alt"></i></a>
+                        </span>
+                    </td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 </html>

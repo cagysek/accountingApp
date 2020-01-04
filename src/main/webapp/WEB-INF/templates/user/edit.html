@@ -4,6 +4,9 @@
 
 <div layout:fragment="content">
     <h2>Editace uživatele <span th:text="${user.getUsername()}"></span></h2>
+
+    <a th:href="@{/user-detail}"><button type="button" class="btn btn-primary">Zpět</button></a>
+
     <div th:include="forms/userForm"></div>
 
 </div>

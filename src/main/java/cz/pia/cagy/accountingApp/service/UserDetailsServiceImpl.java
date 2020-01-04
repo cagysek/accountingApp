@@ -35,7 +35,6 @@ public class UserDetailsServiceImpl implements UserDetailsService
             // user can have only just one role
             grantedAuthorities.add(new SimpleGrantedAuthority(user.getRole().getName()));
 
-
             return new LoggedUser(user.getUsername(), user.getPassword(), grantedAuthorities, user.getId());
         }
         else {

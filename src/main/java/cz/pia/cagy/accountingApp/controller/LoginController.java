@@ -40,7 +40,6 @@ public class LoginController extends BaseController
     @PostMapping(value = "/login")
     public String checkPersonInfo(@Valid LoginForm loginForm, BindingResult bindingResult, String logout)
     {
-
         if (bindingResult.hasErrors())
         {
             return "login/default";

@@ -32,10 +32,11 @@ function addRow(){
     deleteButton.classList.add('remove');
     deleteButton.setAttribute('onclick', 'removeInputField(this);');
     deleteButton.setAttribute('role', 'button');
-    deleteButton.setAttribute('href', '#');
-    deleteButton.text ='Remove';
+    deleteButton.text ='X';
     row.appendChild(deleteButton);
-    document.getElementById('movieList').appendChild(row);
+    document.getElementById('invoiceItems').appendChild(row);
+
+    return false;
 };
 
 /**

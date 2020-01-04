@@ -56,15 +56,14 @@
     </table>
 
     <h3>Položky faktury</h3>
-<div id="movieList">
-    <div class="row">
+<div id="invoiceItems">
+    <div class="row invoiceItemsHeader">
         <div class="col form-group d-none">ID</div>
         <div class="col form-group">Název</div>
         <div class="col form-group">Počet (ks)</div>
         <div class="col form-group">DPH (%)</div>
         <div class="col form-group">Cena/ks (Kč)</div>
         <div class="col form-group">Cena/ks s DPH (Kč)</div>
-        <div class="col form-group"></div>
     </div>
     <div class="row item" th:each="invoiceItem, i : *{invoiceItems}">
         <div class="col form-group d-none">
@@ -85,21 +84,21 @@
         <div class="col form-group">
             <input th:field="*{invoiceItems[__${i.index}__].priceDph}" type="text" class="form-control">
         </div>
-        <div class="col form-group">
-            <a class="remove btn btn-danger" href="#" role="button" onclick="removeInputField(this);">Remove</a>
-        </div>
+
+        <a class="remove btn btn-danger" role="button" onclick="removeInputField(this);">X</a>
+
     </div>
 </div>
 
 <div class="row">
     <div class="col">
-        <button type="button" class="btn btn-success" onclick="addRow()">Add row</button>
+        <button type="button" class="btn btn-success" onclick="addRow()"><i class="fas fa-plus"></i></button>
     </div>
 </div>
 
 <div class="row">
     <div class="col">
-        <button type="submit"><span th:text="${formSubmit}" /></button>
+        <button class="btn btn-success" type="submit"><span th:text="${formSubmit}" /></button>
     </div>
 </div>
 

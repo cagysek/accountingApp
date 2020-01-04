@@ -65,5 +65,11 @@ public class WebTemplateConfig implements WebMvcConfigurer
         registry
                 .addResourceHandler("/js/**")
                 .addResourceLocations("/js/");
+        registry
+                .addResourceHandler("/webfonts/**")
+                .addResourceLocations("/webfonts/");
+        registry
+                .addResourceHandler("/font/**")
+                .addResourceLocations("/font/");
     }
 }

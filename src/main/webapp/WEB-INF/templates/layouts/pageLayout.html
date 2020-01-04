@@ -11,9 +11,8 @@
 
     <title>Counting App</title>
 
-    <!-- Bootstrap core CSS -->
-    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
     <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link th:href="@{/css/all.css}" rel="stylesheet">
     <link th:href="@{/css/jquery-ui.css}" rel="stylesheet">
 </head>
 
@@ -21,8 +20,15 @@
 
 
 <div th:include="fragments/navigation"></div>
-<div th:if="${error}" th:text="${error}"></div>
-<div th:if="${success}" th:text="${success}"></div>
+<div th:if="${error}" >
+    <div class="alert alert-danger">
+        <span th:text="${error}"></span>
+    </div>
+</div><div th:if="${success}" >
+    <div class="alert alert-success">
+        <span th:text="${success}"></span>
+    </div>
+</div>
 
 <main role="main" class="container">
 
@@ -33,7 +39,6 @@
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <script th:src="@{/js/jquery.js}"></script>
-<script th:src="@{/js/bootstrap.js}"></script>
 <script th:src="@{/js/customJs.js}"></script>
 
 <div layout:fragment="scripts"></div>

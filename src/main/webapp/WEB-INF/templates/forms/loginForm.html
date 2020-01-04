@@ -2,19 +2,15 @@
       method="post" xmlns:th="http://www.w3.org/1999/xhtml">
     <table>
         <tr>
-            <td>Login:</td>
-            <td><input type="text" th:field="*{username}" /></td>
-            <td th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name
-                Error</td>
+            <td>Přihlašovací jméno:</td>
+            <td><input type="text" class="form-control" th:field="*{username}" /></td>
         </tr>
         <tr>
-            <td>Password:</td>
-            <td><input type="password" th:field="*{password}" /></td>
-            <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Age
-                Error</td>
+            <td>Heslo:</td>
+            <td><input type="password" class="form-control" th:field="*{password}" /></td>
         </tr>
         <tr>
-            <td><button type="submit">Submit</button></td>
+            <td><button class="btn-primary btn" type="submit">Submit</button></td>
         </tr>
     </table>
 </form>
