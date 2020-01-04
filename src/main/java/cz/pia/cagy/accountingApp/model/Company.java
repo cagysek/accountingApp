@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+/**
+ * Entity for company
+ */
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -34,6 +37,4 @@ public class Company extends BaseEntity
 
     @Column(name = "account_number")
     private String accountNumber;
-
-
 }

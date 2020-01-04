@@ -7,12 +7,20 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * The type Company service.
+ */
 @Service
 public class CompanyServiceImpl implements CompanyService
 {
 
     private CompanyRepository companyRepository;
 
+    /**
+     * Instantiates a new Company service.
+     *
+     * @param companyRepository the company repository
+     */
     @Autowired
     public CompanyServiceImpl(CompanyRepository companyRepository)
     {

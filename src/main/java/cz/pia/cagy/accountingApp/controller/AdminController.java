@@ -16,6 +16,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
+/**
+ * Controller for admin users, allows add, edit, remove users
+ */
 @Controller
 public class AdminController extends BaseController
 {
@@ -25,6 +28,12 @@ public class AdminController extends BaseController
     private final String DEFAULT_REDIRECT = "redirect:/admin/users";
 
 
+    /**
+     * Instantiates a new Admin controller.
+     *
+     * @param userService the user service
+     * @param roleService the role service
+     */
     @Autowired
     public AdminController(UserService userService, RoleService roleService)
     {
@@ -32,6 +41,11 @@ public class AdminController extends BaseController
         this.roleService = roleService;
     }
 
+    /**
+     * Shows users overview
+     *
+     * @return the model and view
+     */
     @GetMapping(value = "/admin/users")
     public ModelAndView usersOverview()
     {
@@ -43,11 +57,19 @@ public class AdminController extends BaseController
     }
 
 
+    /**
+     * Shows user edit.
+     *
+     * @param userId the user id
+     * @param atts   the atts
+     * @return the model and view
+     */
     @GetMapping(value = "/admin/user-edit")
     public ModelAndView userEdit(@RequestParam(value = "user-id") Long userId, RedirectAttributes atts)
     {
         User user = this.userService.getUserById(userId);
 
+        // check if user exists
         if (user == null)
         {
             atts.addFlashAttribute(EFlashMessageType.ERROR.toString(), "Uživatel nebyl nalezen.");
@@ -59,12 +81,40 @@ public class AdminController extends BaseController
         ModelMap modelMap = modelAndView.getModelMap();
         modelMap.addAttribute("user", user);
         modelMap.addAttribute("roles", this.roleService.getRoles());
-        modelMap.addAttribute("formUrl", "/user-edit");
+        modelMap.addAttribute("formUrl", "/admin/user-edit");
         modelMap.addAttribute("formSubmit", "Uložit");
 
         return modelAndView;
     }
 
+    /**
+     * Handler for user save after edit
+     *
+     * @param user          the user
+     * @param bindingResult the binding result
+     * @param atts          the atts
+     * @return the string
+     */
+    @PostMapping(value = "/admin/user-edit")
+    public String saveUserEdit(@Valid User user, BindingResult bindingResult, RedirectAttributes atts)
+    {
+        if (bindingResult.hasErrors())
+        {
+            return "admin/userAdd";
+        }
+
+        this.userService.saveUser(user);
+
+        atts.addFlashAttribute(EFlashMessageType.SUCCESS.toString(), "Uživatel byl uložen.");
+
+        return this.DEFAULT_REDIRECT;
+    }
+
+    /**
+     * Shows form for add user
+     *
+     * @return the model and view
+     */
     @GetMapping(value = "/admin/user-add")
     public ModelAndView userAdd()
     {
@@ -80,10 +130,19 @@ public class AdminController extends BaseController
         return modelAndView;
     }
 
+    /**
+     * Handler for user save after add
+     *
+     * @param user          the user
+     * @param bindingResult the binding result
+     * @param atts          the atts
+     * @return the string
+     */
     @PostMapping(value = "/admin/user-add")
-    public String saveUserEdit(@Valid User user, BindingResult bindingResult, RedirectAttributes atts)
+    public String saveUserAdd(@Valid User user, BindingResult bindingResult, RedirectAttributes atts)
     {
-        if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors())
+        {
             return "admin/userAdd";
         }
 
@@ -94,6 +153,13 @@ public class AdminController extends BaseController
         return this.DEFAULT_REDIRECT;
     }
 
+    /**
+     * Handler for user delete.
+     *
+     * @param userId the user id
+     * @param atts   the atts
+     * @return the string
+     */
     @GetMapping(value = "/admin/user-delete")
     public String userDelete(@RequestParam(value = "user-id") Long userId, RedirectAttributes atts)
     {

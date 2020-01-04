@@ -1,5 +1,8 @@
 package cz.pia.cagy.accountingApp.model.enums;
 
+/**
+ * The enum E invoice type.
+ */
 public enum EInvoiceType
 {
     ACCEPTED("Přijatá"),

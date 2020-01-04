@@ -2,14 +2,18 @@ package cz.pia.cagy.accountingApp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+/**
+ * The type Accounting app application.
+ */
 @SpringBootApplication
 public class AccountingAppApplication {
 
+	/**
+	 * The entry point of application.
+	 *
+	 * @param args the input arguments
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(AccountingAppApplication.class, args);
 	}

@@ -10,6 +10,9 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * The type User service.
+ */
 @Service
 public class UserServiceImpl implements UserService
 {
@@ -17,6 +20,12 @@ public class UserServiceImpl implements UserService
     private UserRepository userRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    /**
+     * Instantiates a new User service.
+     *
+     * @param userRepository        the user repository
+     * @param bCryptPasswordEncoder the b crypt password encoder
+     */
     @Autowired
     public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;

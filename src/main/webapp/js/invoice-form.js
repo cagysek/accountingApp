@@ -20,7 +20,6 @@ function addRow(){
         input.type = 'text';
         input.classList.add('form-control');
         input.id = listName + rowIndex + '.' + fieldName;
-        //input.setAttribute('th:name', 'invoiceItems');
         input.setAttribute('name',listName + '[' + rowIndex + '].' + fieldName);
 
         col.appendChild(input);

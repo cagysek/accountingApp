@@ -1,5 +1,8 @@
 package cz.pia.cagy.accountingApp.model.enums;
 
+/**
+ * The enum E flash message type.
+ */
 public enum EFlashMessageType
 {
     SUCCESS,

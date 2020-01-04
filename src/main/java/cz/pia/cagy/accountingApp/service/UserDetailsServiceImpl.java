@@ -2,7 +2,7 @@ package cz.pia.cagy.accountingApp.service;
 
 import cz.pia.cagy.accountingApp.model.User;
 import cz.pia.cagy.accountingApp.repository.UserRepository;
-import cz.pia.cagy.accountingApp.security.LoggedUser;
+import cz.pia.cagy.accountingApp.model.security.LoggedUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * The type User details service.
+ */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService
 {

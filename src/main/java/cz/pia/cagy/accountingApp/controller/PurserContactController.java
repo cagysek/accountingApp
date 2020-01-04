@@ -15,20 +15,36 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
+/**
+ * Controller for manage contact
+ * Accessed only for role purser
+ */
 @Controller
 public class PurserContactController extends BaseController
 {
-
+    /**
+     * Default redirection
+     */
     private final String DEFAULT_REDIRECT = "redirect:/purser/companies-list";
 
     private CompanyService companyService;
 
+    /**
+     * Instantiates a new Purser contact controller.
+     *
+     * @param companyService the company service
+     */
     @Autowired
     public PurserContactController(CompanyService companyService)
     {
         this.companyService = companyService;
     }
 
+    /**
+     * Shows all companies in contacts
+     *
+     * @return the model and view
+     */
     @GetMapping(value = "/purser/companies-list")
     public ModelAndView companiesList()
     {
@@ -39,11 +55,19 @@ public class PurserContactController extends BaseController
         return modelAndView;
     }
 
+    /**
+     * Shows company edit form
+     *
+     * @param companyId the company to show
+     * @param atts      the atts
+     * @return the model and view
+     */
     @GetMapping(value = "/purser/company-edit")
     public ModelAndView companyEdit(@RequestParam(value = "company-id") Long companyId, RedirectAttributes atts)
     {
         Company company = this.companyService.getCompanyById(companyId);
 
+        // check if company exists in db
         if (company == null)
         {
             atts.addFlashAttribute(EFlashMessageType.ERROR.toString(), "Kontakt nebyl nalezen.");
@@ -60,10 +84,19 @@ public class PurserContactController extends BaseController
         return modelAndView;
     }
 
+    /**
+     * Handle company edit form
+     *
+     * @param company       the company
+     * @param bindingResult the binding result
+     * @param atts          the atts
+     * @return the string
+     */
     @PostMapping(value = "/purser/company-edit")
     public String companyEditSave(@Valid Company company, BindingResult bindingResult, RedirectAttributes atts)
     {
-        if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors())
+        {
             return "purser/contact/companyEdit";
         }
 
@@ -74,6 +107,11 @@ public class PurserContactController extends BaseController
         return this.DEFAULT_REDIRECT;
     }
 
+    /**
+     * Shows form for add new company to contacts
+     *
+     * @return the model and view
+     */
     @GetMapping(value = "/purser/company-add")
     public ModelAndView companyAdd()
     {
@@ -86,10 +124,19 @@ public class PurserContactController extends BaseController
         return modelAndView;
     }
 
+    /**
+     * Handles company add form
+     *
+     * @param company       the company
+     * @param bindingResult the binding result
+     * @param atts          the atts
+     * @return the string
+     */
     @PostMapping(value = "/purser/company-add")
     public String companyAddSave(@Valid Company company, BindingResult bindingResult, RedirectAttributes atts)
     {
-        if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors())
+        {
             return "purser/constact/companyAdd";
         }
 
@@ -100,6 +147,13 @@ public class PurserContactController extends BaseController
         return this.DEFAULT_REDIRECT;
     }
 
+    /**
+     * Handles company delete from contacts list
+     *
+     * @param companyId the company id
+     * @param atts      the atts
+     * @return the string
+     */
     @GetMapping(value = "/purser/company-delete")
     public String companyDelete(@RequestParam(value = "company-id") Long companyId, RedirectAttributes atts)
     {

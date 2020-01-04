@@ -8,6 +8,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.validation.constraints.Size;
 
+/**
+ * Entity for address
+ */
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)

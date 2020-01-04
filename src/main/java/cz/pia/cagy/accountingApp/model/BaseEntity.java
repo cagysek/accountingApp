@@ -7,9 +7,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+/**
+ * Base entity with common attributes
+ */
 @MappedSuperclass
 @Data
-public class BaseEntity
+class BaseEntity
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

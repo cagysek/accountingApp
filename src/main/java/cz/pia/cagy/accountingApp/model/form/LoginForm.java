@@ -1,15 +1,16 @@
-package cz.pia.cagy.accountingApp.form;
+package cz.pia.cagy.accountingApp.model.form;
 
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
+/**
+ * Model which represent login form
+ */
 @Data
 public class LoginForm
 {
     @NotNull
-    @Size(max = 100, message = "Přihlašovací jméno musí být v rozmezí {min} - {max} znaků.")
     private String username;
 
     @NotNull

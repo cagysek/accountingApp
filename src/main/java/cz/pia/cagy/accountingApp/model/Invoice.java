@@ -1,7 +1,5 @@
 package cz.pia.cagy.accountingApp.model;
 
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import cz.pia.cagy.accountingApp.model.enums.EInvoiceType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,6 +11,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Entity for invoice
+ */
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -46,9 +47,17 @@ public class Invoice extends BaseEntity
     @Column(name = "type")
     private EInvoiceType type;
 
+    /**
+     * Represent total invoice price without vat.
+     * Values is calculated from invoice items
+     */
     @Transient
     private long totalPrice;
 
+    /**
+     * Represent total invoice price with vat.
+     * Values is calculated from invoice items
+     */
     @Transient
     private long totalPriceDph;
 

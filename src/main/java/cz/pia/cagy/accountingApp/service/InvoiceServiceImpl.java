@@ -10,11 +10,19 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Invoice service.
+ */
 @Service
 public class InvoiceServiceImpl implements InvoiceService
 {
     private InvoiceRepository invoiceRepository;
 
+    /**
+     * Instantiates a new Invoice service.
+     *
+     * @param invoiceRepository the invoice repository
+     */
     @Autowired
     public InvoiceServiceImpl(InvoiceRepository invoiceRepository)
     {

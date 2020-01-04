@@ -1,13 +1,11 @@
 package cz.pia.cagy.accountingApp.controller;
 
-import cz.pia.cagy.accountingApp.form.ChangePasswordForm;
-import cz.pia.cagy.accountingApp.form.LoginForm;
+import cz.pia.cagy.accountingApp.model.form.ChangePasswordForm;
 import cz.pia.cagy.accountingApp.model.User;
 import cz.pia.cagy.accountingApp.model.enums.EFlashMessageType;
-import cz.pia.cagy.accountingApp.security.LoggedUser;
+import cz.pia.cagy.accountingApp.model.security.LoggedUser;
 import cz.pia.cagy.accountingApp.service.RoleService;
 import cz.pia.cagy.accountingApp.service.UserService;
-import cz.pia.cagy.accountingApp.service.UserServiceImpl;
 import cz.pia.cagy.accountingApp.validator.ChangePasswordValidator;
 import cz.pia.cagy.accountingApp.validator.UserRegistrationValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -25,6 +22,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
+/**
+ * Controller for logged user
+ * user setting, password change, ...
+ */
 @Controller
 public class UserController extends BaseController
 {
@@ -33,12 +34,27 @@ public class UserController extends BaseController
     private ChangePasswordValidator changePasswordValidator;
     private UserRegistrationValidator userRegistrationValidator;
 
+    /**
+     * Init binder.
+     * Add changePasswordForm validation
+     *
+     * @param binder the binder
+     */
     @InitBinder("changePasswordForm")
-    protected void initBinder(WebDataBinder binder) {
+    protected void initBinder(WebDataBinder binder)
+    {
         binder.addValidators(this.changePasswordValidator);
     }
 
 
+    /**
+     * Instantiates a new User controller.
+     *
+     * @param userService               the user service
+     * @param roleService               the role service
+     * @param changePasswordValidator   the change password validator
+     * @param userRegistrationValidator the user registration validator
+     */
     @Autowired
     public UserController(UserService userService, RoleService roleService, ChangePasswordValidator changePasswordValidator, UserRegistrationValidator userRegistrationValidator)
     {
@@ -48,6 +64,12 @@ public class UserController extends BaseController
         this.userRegistrationValidator = userRegistrationValidator;
     }
 
+    /**
+     * Shows user detail
+     *
+     * @param authentication the authentication
+     * @return the model and view
+     */
     @GetMapping(value = "/user-detail")
     public ModelAndView userDetail(Authentication authentication)
     {
@@ -61,6 +83,12 @@ public class UserController extends BaseController
         return modelAndView;
     }
 
+    /**
+     * Shows user edit form
+     *
+     * @param authentication the authentication
+     * @return the model and view
+     */
     @GetMapping(value = "/user-edit")
     public ModelAndView userEdit(Authentication authentication)
     {
@@ -78,6 +106,14 @@ public class UserController extends BaseController
         return modelAndView;
     }
 
+    /**
+     * Handles user edit form
+     *
+     * @param userEdit      the user edit
+     * @param bindingResult the binding result
+     * @param atts          the atts
+     * @return the model and view
+     */
     @PostMapping(value = "/user-edit")
     public ModelAndView userEditSave(@Valid User userEdit, BindingResult bindingResult, RedirectAttributes atts)
     {
@@ -93,6 +129,11 @@ public class UserController extends BaseController
         return new ModelAndView("redirect:/user-detail");
     }
 
+    /**
+     * Shows user password change form
+     *
+     * @return the model and view
+     */
     @GetMapping(value = "/user-change-password")
     public ModelAndView userChangePassword()
     {
@@ -102,20 +143,29 @@ public class UserController extends BaseController
         return modelAndView;
     }
 
+    /**
+     * Handles change password form
+     *
+     * @param changePasswordForm the change password form
+     * @param bindingResult      the binding result
+     * @param authentication     the authentication
+     * @param atts               the atts
+     * @return the model and view
+     */
     @PostMapping(value = "/user-change-password")
     public ModelAndView userChangePasswordSave(@Valid ChangePasswordForm changePasswordForm, BindingResult bindingResult, Authentication authentication, RedirectAttributes atts)
     {
-        if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors())
+        {
             return new ModelAndView("user/changePassword");
         }
 
         LoggedUser loggedUser = (LoggedUser) authentication.getPrincipal();
 
         this.userService.changeUserPassword(loggedUser.getUserId(), changePasswordForm.getNewPassword());
+
         atts.addFlashAttribute(EFlashMessageType.SUCCESS.toString(), "Heslo změněno.");
 
         return new ModelAndView("redirect:/user-detail");
     }
-
-
 }
