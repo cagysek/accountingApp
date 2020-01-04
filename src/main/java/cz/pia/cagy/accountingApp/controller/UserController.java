@@ -3,6 +3,7 @@ package cz.pia.cagy.accountingApp.controller;
 import cz.pia.cagy.accountingApp.form.ChangePasswordForm;
 import cz.pia.cagy.accountingApp.form.LoginForm;
 import cz.pia.cagy.accountingApp.model.User;
+import cz.pia.cagy.accountingApp.model.enums.EFlashMessageType;
 import cz.pia.cagy.accountingApp.security.LoggedUser;
 import cz.pia.cagy.accountingApp.service.RoleService;
 import cz.pia.cagy.accountingApp.service.UserService;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -45,9 +47,6 @@ public class UserController extends BaseController
         this.changePasswordValidator = changePasswordValidator;
         this.userRegistrationValidator = userRegistrationValidator;
     }
-
-
-
 
     @GetMapping(value = "/user-detail")
     public ModelAndView userDetail(Authentication authentication)
@@ -80,19 +79,18 @@ public class UserController extends BaseController
     }
 
     @PostMapping(value = "/user-edit")
-    public String userEditSave(@Valid User userEdit, BindingResult bindingResult)
+    public ModelAndView userEditSave(@Valid User userEdit, BindingResult bindingResult, RedirectAttributes atts)
     {
-        if (bindingResult.hasErrors()) {
-            for (ObjectError error : bindingResult.getAllErrors())
-            {
-                System.out.println(error.getCode().toString());
-            }
-            return "user/edit";
+        if (bindingResult.hasErrors())
+        {
+            return new ModelAndView("user/edit");
         }
 
         this.userService.saveUser(userEdit);
 
-        return "redirect:/user-detail";
+        atts.addFlashAttribute(EFlashMessageType.SUCCESS.toString(), "Změny uloženy.");
+
+        return new ModelAndView("redirect:/user-detail");
     }
 
     @GetMapping(value = "/user-change-password")
@@ -105,18 +103,18 @@ public class UserController extends BaseController
     }
 
     @PostMapping(value = "/user-change-password")
-    public String userChangePasswordSave(@Valid ChangePasswordForm changePasswordForm, BindingResult bindingResult, Authentication authentication)
+    public ModelAndView userChangePasswordSave(@Valid ChangePasswordForm changePasswordForm, BindingResult bindingResult, Authentication authentication, RedirectAttributes atts)
     {
         if (bindingResult.hasErrors()) {
-            System.out.println(bindingResult.getAllErrors());
-            return "user/changePassword";
+            return new ModelAndView("user/changePassword");
         }
 
         LoggedUser loggedUser = (LoggedUser) authentication.getPrincipal();
 
         this.userService.changeUserPassword(loggedUser.getUserId(), changePasswordForm.getNewPassword());
+        atts.addFlashAttribute(EFlashMessageType.SUCCESS.toString(), "Heslo změněno.");
 
-        return "redirect:/user-detail";
+        return new ModelAndView("redirect:/user-detail");
     }
 
 

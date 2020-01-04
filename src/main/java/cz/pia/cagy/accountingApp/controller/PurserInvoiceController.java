@@ -1,6 +1,7 @@
 package cz.pia.cagy.accountingApp.controller;
 
 import cz.pia.cagy.accountingApp.model.Invoice;
+import cz.pia.cagy.accountingApp.model.enums.EFlashMessageType;
 import cz.pia.cagy.accountingApp.service.CompanyService;
 import cz.pia.cagy.accountingApp.service.InvoiceItemService;
 import cz.pia.cagy.accountingApp.service.InvoiceService;
@@ -58,13 +59,15 @@ public class PurserInvoiceController extends BaseController
     }
 
     @PostMapping(value = "/purser/invoice-add")
-    public String invoiceAddSave(@Valid Invoice invoice, BindingResult bindingResult)
+    public String invoiceAddSave(@Valid Invoice invoice, BindingResult bindingResult, RedirectAttributes atts)
     {
         if (bindingResult.hasErrors()) {
             return "purser/invoice/invoiceAdd";
         }
 
         long id = this.invoiceService.saveInvoice(invoice);
+
+        atts.addFlashAttribute(EFlashMessageType.SUCCESS.toString(), "Faktura byla úspěšně vytvořena.");
 
         return "redirect:/purser/invoice-detail?invoice-id=" + id;
     }
@@ -74,6 +77,8 @@ public class PurserInvoiceController extends BaseController
     {
         Invoice invoice = this.invoiceService.getInvoiceById(invoiceId);
 
+        // check if invoice is cancelled
+        // cancelled invoice can not be changed
         if (invoice.isStorno())
         {
             atts.addFlashAttribute("error", "Stornovanou faktruru nelze editovat");
@@ -93,7 +98,7 @@ public class PurserInvoiceController extends BaseController
     }
 
     @PostMapping(value = "/purser/invoice-edit")
-    public String invoiceEditSave(@Valid Invoice invoice, BindingResult bindingResult)
+    public String invoiceEditSave(@Valid Invoice invoice, BindingResult bindingResult, RedirectAttributes atts)
     {
         if (bindingResult.hasErrors()) {
             return "purser/invoice/invoiceEdit";
@@ -101,13 +106,18 @@ public class PurserInvoiceController extends BaseController
 
         long id = this.invoiceService.saveInvoice(invoice);
 
+        atts.addFlashAttribute(EFlashMessageType.SUCCESS.toString(), "Změny byly uloženy.");
+
         return "redirect:/purser/invoice-detail?invoice-id=" + id;
     }
 
     @GetMapping(value = "/purser/invoice-delete")
-    public String companyDelete(@RequestParam(value = "invoice-id", required = true) Long invoiceId)
+    public String companyDelete(@RequestParam(value = "invoice-id", required = true) Long invoiceId, RedirectAttributes atts)
     {
         this.invoiceService.stornoInvoice(invoiceId);
+
+        atts.addFlashAttribute(EFlashMessageType.SUCCESS.toString(), "Faktura č. " + invoiceId + " byla stornována.");
+
         return this.DEFAULT_REDIRECT;
     }
 

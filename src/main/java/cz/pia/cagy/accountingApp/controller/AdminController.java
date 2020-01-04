@@ -1,6 +1,7 @@
 package cz.pia.cagy.accountingApp.controller;
 
 import cz.pia.cagy.accountingApp.model.User;
+import cz.pia.cagy.accountingApp.model.enums.EFlashMessageType;
 import cz.pia.cagy.accountingApp.service.RoleService;
 import cz.pia.cagy.accountingApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -68,7 +70,7 @@ public class AdminController extends BaseController
     }
 
     @PostMapping(value = "/admin/user-add")
-    public String saveUserEdit(@Valid User user, BindingResult bindingResult)
+    public String saveUserEdit(@Valid User user, BindingResult bindingResult, RedirectAttributes atts)
     {
         if (bindingResult.hasErrors()) {
             return "admin/userAdd";
@@ -76,13 +78,18 @@ public class AdminController extends BaseController
 
         this.userService.saveUser(user);
 
+        atts.addFlashAttribute(EFlashMessageType.SUCCESS.toString(), "Uživatel byl úspěšně vytvořen.");
+
         return "redirect:/admin/user-edit?user-id=" + user.getId();
     }
 
     @GetMapping(value = "/admin/user-delete")
-    public String userDelete(@RequestParam(value = "user-id", required = true) Long userId)
+    public String userDelete(@RequestParam(value = "user-id", required = true) Long userId, RedirectAttributes atts)
     {
         this.userService.deleteUserById(userId);
+
+        atts.addFlashAttribute(EFlashMessageType.SUCCESS.toString(), "Uživatel úspěšně odstraněn");
+
         return "redirect:/admin/users";
     }
 }

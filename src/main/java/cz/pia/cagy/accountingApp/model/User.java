@@ -44,7 +44,7 @@ public class User extends BaseEntity
 
     @Column(name = "account_number")
     @NotEmpty(message = "Číslo účtu musí být vyplněno.")
-    @Size(min = 11, max = 11, message = "Dělka čísla účtu musí být {max} znaků.")
+    @Size(min = 14, max = 14, message = "Dělka čísla účtu musí být {max} znaků.")
     private String accountNumber;
 
     @Column(name = "card_number")

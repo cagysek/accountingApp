@@ -14,7 +14,7 @@ import javax.validation.Valid;
 public class LoginController extends BaseController
 {
     @GetMapping(value = "/login")
-    public ModelAndView login(Model model)
+    public ModelAndView login()
     {
         ModelAndView modelAndView = new ModelAndView("login/default");
         modelAndView.getModelMap().addAttribute("loginForm", new LoginForm());
