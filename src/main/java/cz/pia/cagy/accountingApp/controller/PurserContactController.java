@@ -115,7 +115,7 @@ public class PurserContactController extends BaseController
     @GetMapping(value = "/purser/company-add")
     public ModelAndView companyAdd()
     {
-        ModelAndView modelAndView = new ModelAndView("purser/companyAdd");
+        ModelAndView modelAndView = new ModelAndView("purser/contact/companyAdd");
         ModelMap modelMap = modelAndView.getModelMap();
         modelMap.addAttribute("company", new Company());
         modelMap.addAttribute("formUrl", "/purser/company-add");

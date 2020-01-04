@@ -14,8 +14,7 @@
     </h2>
 
     <a th:href="@{/purser/invoice-list}"><button type="button" class="btn btn-primary">Zpět</button></a>
-
-
+    <a th:if="${!invoice.isStorno()}" th:href="@{/purser/invoice-edit(invoice-id=${invoice.getId()})}"><button type="button" class="btn btn-primary">Editace</button></a>
 
     <div class="row">
         <div class="split-row">
