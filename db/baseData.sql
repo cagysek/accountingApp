@@ -6,8 +6,8 @@
 # https://github.com/sequelpro/sequelpro
 #
 # Host: 127.0.0.1 (MySQL 5.5.5-10.4.8-MariaDB-1:10.4.8+maria~bionic)
-# Database: coutingApp
-# Generation Time: 2020-01-05 12:12:12 +0000
+# Database: mydb
+# Generation Time: 2020-01-05 21:13:31 +0000
 # ************************************************************
 
 
@@ -32,7 +32,7 @@ CREATE TABLE `address` (
   `city` varchar(45) DEFAULT NULL,
   `zip` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `address` WRITE;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
@@ -42,9 +42,11 @@ VALUES
 	(2,'Máchova 20','Plzeň',30100),
 	(3,'Lobézská 39','Plzeň',32600),
 	(4,'Lomská','Lom',43511),
-	(5,'','',NULL),
 	(12,'','',NULL),
-	(14,'','',NULL);
+	(14,'','',NULL),
+	(15,'','',NULL),
+	(16,'Máchova 20','Plzeň',30100),
+	(18,'','',NULL);
 
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -67,14 +69,14 @@ CREATE TABLE `company` (
   PRIMARY KEY (`id`),
   KEY `fk_company_address1_idx` (`address_id`),
   CONSTRAINT `fk_company_address1` FOREIGN KEY (`address_id`) REFERENCES `address` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `company` WRITE;
 /*!40000 ALTER TABLE `company` DISABLE KEYS */;
 
 INSERT INTO `company` (`id`, `name`, `ic`, `dic`, `phone`, `email`, `account_number`, `address_id`)
 VALUES
-	(6,'Test',11,'22','33','44','55',2),
+	(6,'Společnost Miroslava Soukupa',11,'22','33','44','55',2),
 	(7,'Rtsoft',1111,'2222','3333','4444','263361400/0300',3);
 
 /*!40000 ALTER TABLE `company` ENABLE KEYS */;
@@ -106,7 +108,7 @@ INSERT INTO `invoice` (`id`, `supplier_company_id`, `bill_to_company_id`, `date_
 VALUES
 	(3,7,6,'2019-05-05','2019-12-12','2020-02-02',0,'PUBLISHED'),
 	(4,6,6,'2019-12-02','2019-12-18','2020-02-02',0,'ACCEPTED'),
-	(6,7,6,'2020-01-01','2020-01-22','2020-01-31',0,'ACCEPTED'),
+	(6,7,6,'2020-01-02','2020-01-22','2020-01-31',0,'ACCEPTED'),
 	(12,7,7,'2020-01-12','2020-01-13','2020-01-14',1,'PUBLISHED'),
 	(13,7,7,'2020-01-12','2020-01-13','2020-01-14',1,'PUBLISHED'),
 	(14,7,7,'2020-01-12','2020-01-13','2020-01-14',1,'PUBLISHED');
@@ -123,16 +125,16 @@ DROP TABLE IF EXISTS `invoice_item`;
 CREATE TABLE `invoice_item` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `invoice_id` int(10) unsigned NOT NULL,
-  `name` varchar(45) NOT NULL DEFAULT '',
-  `quantity` int(11) DEFAULT NULL,
-  `price_vat` int(11) DEFAULT NULL,
-  `price` decimal(10,2) DEFAULT NULL,
-  `price_dph` decimal(10,2) DEFAULT NULL,
+  `name` varchar(45) DEFAULT '',
+  `quantity` int(11) NOT NULL DEFAULT 1,
+  `price_vat` int(11) NOT NULL DEFAULT 0,
+  `price` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `price_dph` decimal(10,2) NOT NULL DEFAULT 0.00,
   PRIMARY KEY (`id`),
   KEY `fk_invoice_item_invoice1_idx` (`invoice_id`),
   KEY `fk_invoice_item_product1_idx` (`name`),
   CONSTRAINT `fk_invoice_item_invoice1` FOREIGN KEY (`invoice_id`) REFERENCES `invoice` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `invoice_item` WRITE;
 /*!40000 ALTER TABLE `invoice_item` DISABLE KEYS */;
@@ -149,7 +151,8 @@ VALUES
 	(16,14,'Test',2,21,220.00,1233.00),
 	(17,14,'Test 2',1,21,220.00,222.00),
 	(18,14,'test3',3,21,444.00,500.00),
-	(19,6,'Test',1,21,222.00,333.00);
+	(19,6,'Test',1,21,222.00,333.00),
+	(20,6,'AA',1,21,400.00,500.00);
 
 /*!40000 ALTER TABLE `invoice_item` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -201,7 +204,7 @@ CREATE TABLE `user` (
   KEY `fk_user_user_type1_idx` (`role_id`),
   CONSTRAINT `fk_user_address1` FOREIGN KEY (`address_id`) REFERENCES `address` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_user_user_type1` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
@@ -209,9 +212,10 @@ LOCK TABLES `user` WRITE;
 INSERT INTO `user` (`id`, `firstname`, `lastname`, `personal_identification_number`, `email`, `phone`, `account_number`, `card_number`, `username`, `password`, `address_id`, `role_id`)
 VALUES
 	(3,'Honza','čagy','960827/9999','aa@b.cz','','263361400/0300','3421 1111 2222 3333','cagy','$2a$10$ct1VOnHj5Yo4V9hs9XX2v.H7OntRoTeTP5pWn3Ma3QL8P9C06GbJu',4,1),
-	(4,'','test','','','','','','cagys','$2y$12$Vrc74jfcmGi2VlNlMcI2fel75tTv0FZAPj1eu3E2L.ywHwMKdwk7C',5,1),
 	(6,'Admin1','Admin','123456/1234','admin@admin.cz','','111 222 333 / 4444','1111 2222 3333 4444','admin001','$2a$10$0Fzi4YkmfF89cCrmDjstjuw3.19RUkvwNnZtJRnvtmhBn4eaSUMB6',12,1),
-	(8,'bb','cc','111111/1111','a@b.cz','','111 222 333 / 4444','1111222233334444','purser001','$2a$10$4ng.fs80ZsB.KVF3dXGZe.AP6KvFf.HTANmzG5pbVkQo0Lbt7ZXM.',14,2);
+	(8,'Účetní 1','Účetní','111111/1111','purser1@purser.com','','111 222 333 / 4444','1111222233334444','purser001','$2a$10$g/la6AHxjH2kFrKrCxlzs.LkEHD6ZCreyz1nE0bXnim.Ht4WWHcFu',15,2),
+	(9,'Admin2','Admin','654321/1234','admin2@admin.cz','','333 222 111 / 4444','1111 2222 3333 4444','admin002','$2a$10$ixV9f8vdqj5aZM0lhEg4kOIetNUQ5LpMbFVtzmxQOwaXOqWOBOYXO',16,1),
+	(11,'Účetní 2','money','960827/2980','purser2@money.com','+420 603989504','263351400/0300','5423 3421 6032 9465','purser002','$2a$10$TpBt08PQ8Mlsw7Y5FLzBUu.Zch6V5cQw6uS9jMaFPiz858p5gYvHO',18,2);
 
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;

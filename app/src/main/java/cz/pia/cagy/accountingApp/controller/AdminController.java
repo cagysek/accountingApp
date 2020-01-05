@@ -4,11 +4,14 @@ import cz.pia.cagy.accountingApp.model.User;
 import cz.pia.cagy.accountingApp.model.enums.EFlashMessageType;
 import cz.pia.cagy.accountingApp.service.RoleService;
 import cz.pia.cagy.accountingApp.service.UserService;
+import cz.pia.cagy.accountingApp.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,9 +27,15 @@ public class AdminController extends BaseController
 {
     private UserService userService;
     private RoleService roleService;
+    private UserValidator userValidator;
 
     private final String DEFAULT_REDIRECT = "redirect:/admin/users";
 
+    @InitBinder("user")
+    protected void initBinder1(WebDataBinder binder)
+    {
+        binder.addValidators(this.userValidator);
+    }
 
     /**
      * Instantiates a new Admin controller.
@@ -35,10 +44,11 @@ public class AdminController extends BaseController
      * @param roleService the role service
      */
     @Autowired
-    public AdminController(UserService userService, RoleService roleService)
+    public AdminController(UserService userService, RoleService roleService, UserValidator userValidator)
     {
         this.userService = userService;
         this.roleService = roleService;
+        this.userValidator = userValidator;
     }
 
     /**

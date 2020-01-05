@@ -326,6 +326,10 @@ td a {
     .nav-right {
         position: relative;
     }
+
+    .dropdown-content {
+        margin-top: 0;
+    }
 }
 
 @media screen and (max-width: 700px) {

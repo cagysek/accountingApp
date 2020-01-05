@@ -4,33 +4,35 @@
 
 <div layout:fragment="content">
     <a th:href="@{/admin/user-add}"><button type="button" class="btn btn-success">Nový</button></a>
-    <table class="table" xmlns:th="http://www.w3.org/1999/xhtml">
-        <thead>
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Přezdívka</th>
-            <th scope="col">Jméno</th>
-            <th scope="col">Příjmení</th>
-            <th scope="col">Email</th>
-            <th scope="col">Role</th>
-            <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-            <th:block th:each="user : ${users}">
-                <tr>
-                    <td th:text="${user?.getId()}"></td>
-                    <td th:text="${user?.getUsername()}"></td>
-                    <td th:text="${user?.getFirstName()}"></td>
-                    <td th:text="${user?.getLastName()}"></td>
-                    <td th:text="${user?.getEmail()}"></td>
-                    <td th:text="${user?.getRole()?.getName()}"></td>
-                    <td><a th:href="@{/admin/user-edit(user-id=${user.getId()})}">Edit</a></td>
-                    <td><a th:href="@{/admin/user-delete(user-id=${user.getId()})}">Delete</a></td>
-                </tr>
-            </th:block>
-        </tbody>
-    </table>
+    <div class="table-wrapper">
+        <table class="table" xmlns:th="http://www.w3.org/1999/xhtml">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Přezdívka</th>
+                <th scope="col">Jméno</th>
+                <th scope="col">Příjmení</th>
+                <th scope="col">Email</th>
+                <th scope="col">Role</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+                <th:block th:each="user : ${users}">
+                    <tr>
+                        <td th:text="${user?.getId()}"></td>
+                        <td th:text="${user?.getUsername()}"></td>
+                        <td th:text="${user?.getFirstName()}"></td>
+                        <td th:text="${user?.getLastName()}"></td>
+                        <td th:text="${user?.getEmail()}"></td>
+                        <td th:text="${user?.getRole()?.getName()}"></td>
+                        <td><a th:href="@{/admin/user-edit(user-id=${user.getId()})}">Edit</a></td>
+                        <td><a th:href="@{/admin/user-delete(user-id=${user.getId()})}">Delete</a></td>
+                    </tr>
+                </th:block>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 </html>

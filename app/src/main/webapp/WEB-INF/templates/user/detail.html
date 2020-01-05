@@ -7,56 +7,58 @@
     <a th:href="@{/user-edit}"><button type="button" class="btn btn-primary">Editace</button></a>
     <a th:href="@{/user-change-password}"><button type="button" class="btn btn-primary">Změna hesla</button></a>
 
-    <table class="table">
-        <thead>
-        </thead>
-        <tbody>
-        <tr>
-            <th scope="row">Přezdívka</th>
-            <td><span th:text="${user?.getUsername()}"></span></td>
-        </tr>
-        <tr>
-            <th scope="row">Role</th>
-            <td><span th:text="${user?.getRole()?.getName()}"></span></td>
-        </tr>
-        <tr>
-            <th scope="row">Jméno</th>
-            <td><span th:text="${user?.getFirstName()}"></span></td>
-        </tr>
-        <tr>
-            <th scope="row">Příjmení</th>
-            <td><span th:text="${user?.getLastName()}"></span></td>
-        </tr>
-        <tr>
-            <th scope="row">Email</th>
-            <td><span th:text="${user?.getEmail()}"></span></td>
-        </tr>
-        <tr>
-            <th scope="row">Rodné číslo</th>
-            <td><span th:text="${user?.getPersonalIdentificationNumber()}"></span></td>
-        </tr>
-        <tr>
-            <th scope="row">Telefon</th>
-            <td><span th:text="${user?.getPhone()}"></span></td>
-        </tr>
-        <tr>
-            <th scope="row">Číslo účtu</th>
-            <td><span th:text="${user?.getAccountNumber()}"></span></td>
-        </tr>
-        <tr>
-            <th scope="row">Číslo karty</th>
-            <td><span th:text="${user?.getCardNumber()}"></span></td>
-        </tr>
-        <tr>
-            <th scope="row">Adresa</th>
-            <td>
-                <span th:text="${user?.getAddress()?.getStreet()}"></span><br>
-                <span th:text="${user?.getAddress()?.getCity()}"></span><br>
-                <span th:text="${user?.getAddress()?.getZip()}"></span>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="table-wrapper">
+        <table class="table">
+            <thead>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">Přezdívka</th>
+                <td><span th:text="${user?.getUsername()}"></span></td>
+            </tr>
+            <tr>
+                <th scope="row">Role</th>
+                <td><span th:text="${user?.getRole()?.getName()}"></span></td>
+            </tr>
+            <tr>
+                <th scope="row">Jméno</th>
+                <td><span th:text="${user?.getFirstName()}"></span></td>
+            </tr>
+            <tr>
+                <th scope="row">Příjmení</th>
+                <td><span th:text="${user?.getLastName()}"></span></td>
+            </tr>
+            <tr>
+                <th scope="row">Email</th>
+                <td><span th:text="${user?.getEmail()}"></span></td>
+            </tr>
+            <tr>
+                <th scope="row">Rodné číslo</th>
+                <td><span th:text="${user?.getPersonalIdentificationNumber()}"></span></td>
+            </tr>
+            <tr>
+                <th scope="row">Telefon</th>
+                <td><span th:text="${user?.getPhone()}"></span></td>
+            </tr>
+            <tr>
+                <th scope="row">Číslo účtu</th>
+                <td><span th:text="${user?.getAccountNumber()}"></span></td>
+            </tr>
+            <tr>
+                <th scope="row">Číslo karty</th>
+                <td><span th:text="${user?.getCardNumber()}"></span></td>
+            </tr>
+            <tr>
+                <th scope="row">Adresa</th>
+                <td>
+                    <span th:text="${user?.getAddress()?.getStreet()}"></span><br>
+                    <span th:text="${user?.getAddress()?.getCity()}"></span><br>
+                    <span th:text="${user?.getAddress()?.getZip()}"></span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 </html>
