@@ -1,11 +1,4 @@
-FROM maven:3.6-jdk-8
-
-COPY ./app /build
-WORKDIR /build
-RUN mvn -f /build/pom.xml clean install
-
-FROM tomcat:8
-
-
-
-COPY --from=0 /build/target/*.war /usr/local/tomcat/webapps/ROOT.war
+FROM adoptopenjdk:11-jre-hotspot
+RUN mkdir /opt/app
+COPY app/target/accountingApp-0.0.1-SNAPSHOT.war /opt/app
+CMD ["java", "-jar", "/opt/app/accountingApp-0.0.1-SNAPSHOT.war"]

@@ -1,4 +1,4 @@
-version: '2'
+version: '2.1'
 services:
   mariadb:
     image: mariadb
@@ -11,14 +11,17 @@ services:
       - "3306:3306"
     volumes:
       - ./db/baseData.sql:/docker-entrypoint-initdb.d/dump.sql
+    healthcheck:
+      test: "exit 0"
 
   counting_app:
     container_name: counting_app
     image: 'pia/cagy'
     ports:
-      - '8081:8081'
+      - '80:8080'
     build:
       context: ./
       dockerfile: dockerfile
     depends_on:
-      - "mariadb"
+      mariadb:
+        condition: service_healthy
