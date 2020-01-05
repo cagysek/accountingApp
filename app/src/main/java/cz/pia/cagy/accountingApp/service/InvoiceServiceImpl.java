@@ -56,14 +56,18 @@ public class InvoiceServiceImpl implements InvoiceService
         long finalPrice = 0;
         long finalPriceDph = 0;
 
-        for (InvoiceItem item : invoice.getInvoiceItems())
+        if (invoice != null)
         {
-            finalPrice += item.getPrice() * item.getQuantity();
-            finalPriceDph += item.getPriceDph() * item.getQuantity();
+            for (InvoiceItem item : invoice.getInvoiceItems())
+            {
+                finalPrice += item.getPrice() * item.getQuantity();
+                finalPriceDph += item.getPriceDph() * item.getQuantity();
+            }
+
+            invoice.setTotalPrice(finalPrice);
+            invoice.setTotalPriceDph(finalPriceDph);
         }
 
-        invoice.setTotalPrice(finalPrice);
-        invoice.setTotalPriceDph(finalPriceDph);
 
         return invoice;
     }
