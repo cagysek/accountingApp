@@ -50,13 +50,13 @@ public class ChangePasswordValidator implements Validator
     {
         // check filled inputs
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "oldPassword",
-                "required.password", "Staré heslo musí být vyplněno.");
+                "required.password", "");
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "newPassword",
-                "required.confirmPassword", "Nové heslo musí být vyplněno.");
+                "required.confirmPassword", "");
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "newPasswordConfirm",
-                "required.confirmPassword", "Nové heslo znovu musí být vyplněno.");
+                "required.confirmPassword2", "");
 
 
         ChangePasswordForm form = (ChangePasswordForm) o;
@@ -69,12 +69,12 @@ public class ChangePasswordValidator implements Validator
         // check user old password
         if (!bCryptPasswordEncoder.matches(form.getOldPassword(), user.getPassword()))
         {
-            errors.reject("Staré heslo se neshoduje");
+            errors.reject("password.not.equal");
         }
 
         // check new password with confirm
         if(!(form.getNewPassword().equals(form.getNewPasswordConfirm()))){
-            errors.reject("Nové heslo se neshoduje s potvrzením");
+            errors.reject("password.new.not.equal");
         }
     }
 }

@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService
         }
 
         // if is set new password
-        if (user.getPassword() != null)
+        if (user.getPassword() != null && !user.getPassword().isEmpty())
         {
             user.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
         }
