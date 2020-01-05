@@ -1,3 +1,0 @@
-# přejde do adresáře s dockerem a pustí bash v kontejneru
-cd "$(dirname "$0")"
-docker exec -it php56vp bash -c 'cd /var/www/html; exec "${SHELL:-sh}"'
