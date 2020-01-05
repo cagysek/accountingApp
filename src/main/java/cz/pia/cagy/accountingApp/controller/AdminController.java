@@ -79,6 +79,7 @@ public class AdminController extends BaseController
         ModelAndView modelAndView = new ModelAndView("admin/userEdit");
 
         ModelMap modelMap = modelAndView.getModelMap();
+        user.setPassword(null);
         modelMap.addAttribute("user", user);
 
         this.serUpDataForUserFormEdit(modelMap);
@@ -184,5 +185,6 @@ public class AdminController extends BaseController
         modelMap.addAttribute("roles", this.roleService.getRoles());
         modelMap.addAttribute("formUrl", "/admin/user-edit");
         modelMap.addAttribute("formSubmit", "Uložit");
+        modelMap.addAttribute("showPassword", true);
     }
 }

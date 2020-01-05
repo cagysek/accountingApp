@@ -12,8 +12,7 @@
         </thead>
         <tbody>
         <li th:each="e : ${#fields.detailedErrors()}" th:class="${e.global}? globalerr : fielderr">
-            <span th:text="${e.global}? '*' : ${e.fieldName}">The field name</span> |
-            <span th:text="${e.message}">The error message</span>
+            <span th:text="${e?.message}">The error message</span>
         </li>
         <tr>
             <th scope="row " class="required">Přezdívka:</th>
@@ -55,7 +54,7 @@
                 <input type="text" class="form-control" th:field="*{address.zip}" th:value="${user?.getAddress()?.getZip()}" placeholder="PSČ"/>
             </td>
         </tr>
-        <tr sec:authorize="hasAuthority('ADMIN')">
+        <tr sec:authorize="hasAuthority('ROLE_ADMIN')">
             <th scope="row">Role</th>
             <td>
                 <select class="form-control" th:field="*{role}" th:value="${user?.getRole()?.getId()}">
@@ -66,7 +65,7 @@
             </td>
         </tr>
         <tr th:if="${showPassword} == true">
-            <th scope="row" class="required">Heslo:</th>
+            <th scope="row">Heslo:</th>
             <td>
                 <input type="text" class="form-control" th:field="*{password}" /><br>
             </td>

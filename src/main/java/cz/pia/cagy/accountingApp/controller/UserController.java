@@ -7,7 +7,7 @@ import cz.pia.cagy.accountingApp.model.security.LoggedUser;
 import cz.pia.cagy.accountingApp.service.RoleService;
 import cz.pia.cagy.accountingApp.service.UserService;
 import cz.pia.cagy.accountingApp.validator.ChangePasswordValidator;
-import cz.pia.cagy.accountingApp.validator.UserRegistrationValidator;
+import cz.pia.cagy.accountingApp.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -32,7 +32,7 @@ public class UserController extends BaseController
     private UserService userService;
     private RoleService roleService;
     private ChangePasswordValidator changePasswordValidator;
-    private UserRegistrationValidator userRegistrationValidator;
+    private UserValidator userValidator;
 
     /**
      * Init binder.
@@ -46,6 +46,12 @@ public class UserController extends BaseController
         binder.addValidators(this.changePasswordValidator);
     }
 
+    @InitBinder("user")
+    protected void initBinder1(WebDataBinder binder)
+    {
+        binder.addValidators(this.userValidator);
+    }
+
 
     /**
      * Instantiates a new User controller.
@@ -53,15 +59,15 @@ public class UserController extends BaseController
      * @param userService               the user service
      * @param roleService               the role service
      * @param changePasswordValidator   the change password validator
-     * @param userRegistrationValidator the user registration validator
+     * @param userValidator the user registration validator
      */
     @Autowired
-    public UserController(UserService userService, RoleService roleService, ChangePasswordValidator changePasswordValidator, UserRegistrationValidator userRegistrationValidator)
+    public UserController(UserService userService, RoleService roleService, ChangePasswordValidator changePasswordValidator, UserValidator userValidator)
     {
         this.userService = userService;
         this.roleService = roleService;
         this.changePasswordValidator = changePasswordValidator;
-        this.userRegistrationValidator = userRegistrationValidator;
+        this.userValidator = userValidator;
     }
 
     /**

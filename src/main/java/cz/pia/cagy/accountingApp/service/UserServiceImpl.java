@@ -51,19 +51,35 @@ public class UserServiceImpl implements UserService
     @Override
     public void saveUser(User user)
     {
-        User dbUser = this.getUserById(user.getId());
+        User dbUser = null;
+
+        // load info from db if user exists
+        if (user.getId() != null)
+        {
+            dbUser = this.getUserById(user.getId());
+        }
+
+        // if is set new password
         if (user.getPassword() != null)
         {
             user.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
         }
+        // else add to entity user password
         else
         {
-            user.setPassword(dbUser.getPassword());
+            if (dbUser != null)
+            {
+                user.setPassword(dbUser.getPassword());
+            }
         }
 
+        // if role is null (user edit, role is not in form)
         if (user.getRole() == null)
         {
-            user.setRole(dbUser.getRole());
+            if (dbUser != null)
+            {
+                user.setRole(dbUser.getRole());
+            }
         }
 
         this.userRepository.save(user);
