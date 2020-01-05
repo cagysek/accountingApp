@@ -16,39 +16,39 @@
             <span th:text="${e.message}">The error message</span>
         </li>
         <tr>
-            <th scope="row">Přezdívka</th>
+            <th scope="row " class="required">Přezdívka:</th>
             <td><input type="text" class="form-control" th:field="*{username}" th:value="${user?.getUsername()}" /></td>
         </tr>
         <tr>
-            <th scope="row">Jméno</th>
+            <th scope="row" class="required">Jméno:</th>
             <td><input type="text" class="form-control" th:field="*{firstName}" th:value="${user?.getFirstName()}" /></td>
         </tr>
         <tr>
-            <th scope="row">Příjmení</th>
+            <th scope="row" class="required">Příjmení:</th>
             <td><input type="text" class="form-control" th:field="*{lastName}" th:value="${user?.getLastName()}" /></td>
         </tr>
         <tr>
-            <th scope="row">Email</th>
+            <th scope="row" class="required">Email:</th>
             <td><input type="text" class="form-control" th:field="*{email}" th:value="${user?.getEmail()}" /></td>
         </tr>
         <tr>
-            <th scope="row">Rodné číslo</th>
+            <th scope="row" class="required">Rodné číslo:</th>
             <td><input type="text" class="form-control" th:field="*{personalIdentificationNumber}" th:value="${user?.getPersonalIdentificationNumber()}" /></td>
         </tr>
         <tr>
-            <th scope="row">Telefon</th>
+            <th scope="row">Telefon:</th>
             <td><input type="text" class="form-control" th:field="*{phone}" th:value="${user?.getPhone()}" /></td>
         </tr>
         <tr>
-            <th scope="row">Číslo účtu</th>
+            <th scope="row" class="required">Číslo účtu:</th>
             <td><input type="text" class="form-control" th:field="*{accountNumber}" th:value="${user?.getAccountNumber()}" /></td>
         </tr>
         <tr>
-            <th scope="row">Číslo karty</th>
+            <th scope="row" class="required">Číslo karty:</th>
             <td><input type="text" class="form-control" th:field="*{cardNumber}" th:value="${user?.getCardNumber()}" /></td>
         </tr>
         <tr>
-            <th scope="row">Adresa</th>
+            <th scope="row">Adresa:</th>
             <td>
                 <input type="text" class="form-control" th:field="*{address.street}" th:value="${user?.getAddress()?.getStreet()}" placeholder="Adresa"/><br>
                 <input type="text" class="form-control" th:field="*{address.city}" th:value="${user?.getAddress()?.getCity()}" placeholder="Město"/><br>
@@ -66,7 +66,7 @@
             </td>
         </tr>
         <tr th:if="${showPassword} == true">
-            <th scope="row">Heslo</th>
+            <th scope="row" class="required">Heslo:</th>
             <td>
                 <input type="text" class="form-control" th:field="*{password}" /><br>
             </td>

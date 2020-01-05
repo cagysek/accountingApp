@@ -1,6 +1,7 @@
 package cz.pia.cagy.accountingApp.controller;
 
 import cz.pia.cagy.accountingApp.model.form.LoginForm;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +22,13 @@ public class LoginController extends BaseController
      * @return the model and view
      */
     @GetMapping(value = "/login")
-    public ModelAndView login()
+    public ModelAndView login(Authentication authentication)
     {
+        if (authentication != null)
+        {
+            return new ModelAndView("redirect:/");
+        }
+
         ModelAndView modelAndView = new ModelAndView("login/default");
         modelAndView.getModelMap().addAttribute("loginForm", new LoginForm());
 

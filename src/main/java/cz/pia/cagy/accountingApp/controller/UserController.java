@@ -99,9 +99,7 @@ public class UserController extends BaseController
         ModelMap modelMap = modelAndView.getModelMap();
 
         modelMap.addAttribute("user", this.userService.getUserById(loggedUser.getUserId()));
-        modelMap.addAttribute("roles", this.roleService.getRoles());
-        modelMap.addAttribute("formUrl", "/user-edit");
-        modelMap.addAttribute("formSubmit", "Uložit");
+        this.setUpDataForForm(modelMap);
 
         return modelAndView;
     }
@@ -115,10 +113,11 @@ public class UserController extends BaseController
      * @return the model and view
      */
     @PostMapping(value = "/user-edit")
-    public ModelAndView userEditSave(@Valid User userEdit, BindingResult bindingResult, RedirectAttributes atts)
+    public ModelAndView userEditSave(@Valid User userEdit, BindingResult bindingResult, RedirectAttributes atts, ModelMap modelMap)
     {
         if (bindingResult.hasErrors())
         {
+            this.setUpDataForForm(modelMap);
             return new ModelAndView("user/edit");
         }
 
@@ -167,5 +166,12 @@ public class UserController extends BaseController
         atts.addFlashAttribute(EFlashMessageType.SUCCESS.toString(), "Heslo změněno.");
 
         return new ModelAndView("redirect:/user-detail");
+    }
+
+    private void setUpDataForForm(ModelMap modelMap)
+    {
+        modelMap.addAttribute("roles", this.roleService.getRoles());
+        modelMap.addAttribute("formUrl", "/user-edit");
+        modelMap.addAttribute("formSubmit", "Uložit");
     }
 }

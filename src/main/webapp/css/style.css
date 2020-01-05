@@ -380,3 +380,8 @@ td a {
 .d-none {
     display: none !important;
 }
+
+.required:after {
+    content:" *";
+    color: red;
+}

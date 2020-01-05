@@ -18,7 +18,7 @@ import javax.validation.Valid;
 
 /**
  * Controller for manage invoices
- * Accessed only for role purser
+ * Accessed only for role purser except invoice overview and invoice detail
  */
 @Controller
 public class PurserInvoiceController extends BaseController
@@ -26,7 +26,7 @@ public class PurserInvoiceController extends BaseController
     /**
      * Default redirect
      */
-    private final String DEFAULT_REDIRECT = "redirect:/purser/invoice-list";
+    private final String DEFAULT_REDIRECT = "redirect:/invoice-list";
 
     private InvoiceService invoiceService;
 
@@ -52,7 +52,7 @@ public class PurserInvoiceController extends BaseController
      *
      * @return the model and view
      */
-    @GetMapping(value = "/purser/invoice-list")
+    @GetMapping(value = "/invoice-list")
     public ModelAndView invoiceList()
     {
         ModelAndView modelAndView = new ModelAndView("purser/invoice/invoiceList");
@@ -101,7 +101,7 @@ public class PurserInvoiceController extends BaseController
 
         atts.addFlashAttribute(EFlashMessageType.SUCCESS.toString(), "Faktura byla úspěšně vytvořena.");
 
-        return "redirect:/purser/invoice-detail?invoice-id=" + id;
+        return "redirect:/invoice-detail?invoice-id=" + id;
     }
 
     /**
@@ -156,7 +156,7 @@ public class PurserInvoiceController extends BaseController
 
         atts.addFlashAttribute(EFlashMessageType.SUCCESS.toString(), "Změny byly uloženy.");
 
-        return "redirect:/purser/invoice-detail?invoice-id=" + id;
+        return "redirect:/invoice-detail?invoice-id=" + id;
     }
 
     /**
@@ -183,7 +183,7 @@ public class PurserInvoiceController extends BaseController
      * @param atts      the atts
      * @return the model and view
      */
-    @GetMapping(value = "/purser/invoice-detail")
+    @GetMapping(value = "/invoice-detail")
     public ModelAndView invoiceDetail(@RequestParam(value = "invoice-id") Long invoiceId, RedirectAttributes atts)
     {
         Invoice invoice = this.invoiceService.getInvoiceById(invoiceId);

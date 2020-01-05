@@ -33,7 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService
             Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
 
             // user can have only just one role
-            grantedAuthorities.add(new SimpleGrantedAuthority(user.getRole().getName()));
+            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole().getName()));
 
             return new LoggedUser(user.getUsername(), user.getPassword(), grantedAuthorities, user.getId());
         }

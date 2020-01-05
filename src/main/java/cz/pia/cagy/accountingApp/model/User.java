@@ -66,6 +66,6 @@ public class User extends BaseEntity
     private Address address;
 
     @OneToOne
-    @JoinColumn(name = "role_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "role_id")
     private Role role;
 }

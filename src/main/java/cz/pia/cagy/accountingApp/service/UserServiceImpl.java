@@ -51,15 +51,19 @@ public class UserServiceImpl implements UserService
     @Override
     public void saveUser(User user)
     {
-
+        User dbUser = this.getUserById(user.getId());
         if (user.getPassword() != null)
         {
             user.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
         }
         else
         {
-            User dbUser = this.getUserById(user.getId());
             user.setPassword(dbUser.getPassword());
+        }
+
+        if (user.getRole() == null)
+        {
+            user.setRole(dbUser.getRole());
         }
 
         this.userRepository.save(user);

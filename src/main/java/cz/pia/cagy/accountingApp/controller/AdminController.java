@@ -80,9 +80,8 @@ public class AdminController extends BaseController
 
         ModelMap modelMap = modelAndView.getModelMap();
         modelMap.addAttribute("user", user);
-        modelMap.addAttribute("roles", this.roleService.getRoles());
-        modelMap.addAttribute("formUrl", "/admin/user-edit");
-        modelMap.addAttribute("formSubmit", "Uložit");
+
+        this.serUpDataForUserFormEdit(modelMap);
 
         return modelAndView;
     }
@@ -96,10 +95,12 @@ public class AdminController extends BaseController
      * @return the string
      */
     @PostMapping(value = "/admin/user-edit")
-    public String saveUserEdit(@Valid User user, BindingResult bindingResult, RedirectAttributes atts)
+    public String saveUserEdit(@Valid User user, BindingResult bindingResult, RedirectAttributes atts, ModelMap modelMap)
     {
         if (bindingResult.hasErrors())
         {
+            this.serUpDataForUserFormEdit(modelMap);
+
             return "admin/userAdd";
         }
 
@@ -122,10 +123,8 @@ public class AdminController extends BaseController
 
         ModelMap modelMap = modelAndView.getModelMap();
         modelMap.addAttribute("user", new User());
-        modelMap.addAttribute("roles", this.roleService.getRoles());
-        modelMap.addAttribute("formUrl", "/admin/user-add");
-        modelMap.addAttribute("formSubmit", "Vytvořit");
-        modelMap.addAttribute("showPassword", true);
+
+        this.setUpDataForUserFormAdd(modelMap);
 
         return modelAndView;
     }
@@ -139,10 +138,12 @@ public class AdminController extends BaseController
      * @return the string
      */
     @PostMapping(value = "/admin/user-add")
-    public String saveUserAdd(@Valid User user, BindingResult bindingResult, RedirectAttributes atts)
+    public String saveUserAdd(@Valid User user, BindingResult bindingResult, RedirectAttributes atts, ModelMap modelMap)
     {
         if (bindingResult.hasErrors())
         {
+            this.setUpDataForUserFormAdd(modelMap);
+
             return "admin/userAdd";
         }
 
@@ -168,5 +169,20 @@ public class AdminController extends BaseController
         atts.addFlashAttribute(EFlashMessageType.SUCCESS.toString(), "Uživatel úspěšně odstraněn");
 
         return this.DEFAULT_REDIRECT;
+    }
+
+    private void setUpDataForUserFormAdd(ModelMap modelMap)
+    {
+        modelMap.addAttribute("roles", this.roleService.getRoles());
+        modelMap.addAttribute("formUrl", "/admin/user-add");
+        modelMap.addAttribute("formSubmit", "Vytvořit");
+        modelMap.addAttribute("showPassword", true);
+    }
+
+    private void serUpDataForUserFormEdit(ModelMap modelMap)
+    {
+        modelMap.addAttribute("roles", this.roleService.getRoles());
+        modelMap.addAttribute("formUrl", "/admin/user-edit");
+        modelMap.addAttribute("formSubmit", "Uložit");
     }
 }
